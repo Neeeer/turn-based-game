@@ -98,7 +98,7 @@ public class Paladin : Character
     }
     public override String damageAbility3()
     {
-        return "+7-10";
+        return "7-10";
     }
     public override String damageAbility4()
     {

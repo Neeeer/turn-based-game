@@ -20,11 +20,9 @@ public class lvl2Enemies : lvlEnemies
     private Character enemy5;
     private Character enemy6;
 
-    public Gridd gridd;
     List<Character> enemiess;
 
    
-
     public override void Awake()
     {
         enemy1 = new Enemies();

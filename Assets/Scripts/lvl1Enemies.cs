@@ -19,7 +19,6 @@ public class lvl1Enemies : lvlEnemies
     public Gridd gridd;
     List<Character> enemiess;
 
-   
 
     public override void Awake()
     {
@@ -27,8 +26,6 @@ public class lvl1Enemies : lvlEnemies
         enemy2 = new Enemies();
         enemy3 = new Enemies();
         enemy4 = new Enemies();
-
-       
 
         enemy1.setGameobject(ene1);
         enemy2.setGameobject(ene2);

@@ -1,0 +1,64 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "clicks",
+            "id": "9bc7167a-d1e0-42f9-b3b3-ebeb43950dec",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "aa74035e-ec29-461a-bb98-77cfc930784d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Position",
+                    "type": "PassThrough",
+                    "id": "b7b0c99e-6636-4e05-b80d-c7f0aea30274",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "380845e6-5002-4121-8ade-373900efc135",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6427f61-2fa2-432c-a110-2e1e2740ffd3",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "New control scheme",
+            "bindingGroup": "New control scheme",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
