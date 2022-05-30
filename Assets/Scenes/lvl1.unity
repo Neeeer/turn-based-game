@@ -1435,7 +1435,7 @@ MonoBehaviour:
   m_Color: {r: 0.33962262, g: 0.055749357, b: 0.16588217, a: 0.79607844}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1481,7 +1481,7 @@ GameObject:
   - component: {fileID: 236078664}
   - component: {fileID: 236078663}
   m_Layer: 5
-  m_Name: Paladin
+  m_Name: char4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1720,14 +1720,20 @@ MonoBehaviour:
   endLevel: {fileID: 203762282}
   LevelCompletetion: {fileID: 25504354}
   optionalObjective: {fileID: 1238239032}
-  druidLevel: {fileID: 1307720326}
-  assasinLevel: {fileID: 1310062634}
-  frogLevel: {fileID: 2053260289}
-  paladinLevel: {fileID: 804243480}
-  druidXP: {fileID: 1378681785}
-  assasinXP: {fileID: 1246311695}
-  frogXP: {fileID: 1220879936}
-  paladinXP: {fileID: 4267919}
+  char1: {fileID: 1307720326}
+  char2: {fileID: 1310062634}
+  char3: {fileID: 2053260289}
+  char4: {fileID: 804243480}
+  char1xp: {fileID: 1378681785}
+  char2xp: {fileID: 1246311695}
+  char3xp: {fileID: 1220879936}
+  char4xp: {fileID: 4267919}
+  kills: 0
+  turnObjective: 10
+  killObjective: 4
+  turns: 0
+  xpGain: 150
+  gameOver: 0
 --- !u!1 &266095006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1740,7 +1746,7 @@ GameObject:
   - component: {fileID: 266095009}
   - component: {fileID: 266095008}
   m_Layer: 5
-  m_Name: Frog xp
+  m_Name: char3xp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2151,7 +2157,7 @@ GameObject:
   - component: {fileID: 403301805}
   - component: {fileID: 403301804}
   m_Layer: 5
-  m_Name: Frog
+  m_Name: char3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2231,7 +2237,7 @@ GameObject:
   - component: {fileID: 405463171}
   - component: {fileID: 405463170}
   m_Layer: 5
-  m_Name: Druid
+  m_Name: char1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4175,7 +4181,7 @@ GameObject:
   - component: {fileID: 926756319}
   - component: {fileID: 926756318}
   m_Layer: 5
-  m_Name: Paladin xp
+  m_Name: char4xp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4501,9 +4507,9 @@ GameObject:
   - component: {fileID: 1174734599}
   - component: {fileID: 1174734601}
   - component: {fileID: 1174734600}
-  - component: {fileID: 1174734602}
   - component: {fileID: 1174734603}
   - component: {fileID: 1174734604}
+  - component: {fileID: 1174734602}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -9592,7 +9598,7 @@ GameObject:
   - component: {fileID: 1576006471}
   - component: {fileID: 1576006470}
   m_Layer: 5
-  m_Name: Assasin xp
+  m_Name: char2xp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10258,7 +10264,7 @@ GameObject:
   - component: {fileID: 1872466379}
   - component: {fileID: 1872466378}
   m_Layer: 5
-  m_Name: Druid xp
+  m_Name: char1xp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10525,7 +10531,7 @@ GameObject:
   - component: {fileID: 1978083601}
   - component: {fileID: 1978083600}
   m_Layer: 5
-  m_Name: Assasin
+  m_Name: char2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

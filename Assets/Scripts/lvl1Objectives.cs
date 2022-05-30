@@ -6,29 +6,6 @@ using UnityEngine.UI;
 
 public class lvl1Objectives : objectives
 {
-    int killObjective = 4;
-    int kills = 0;
-    int turnObjective = 10;
-    int turns = 0;
-    int xpGain = 150;
-    bool gameOver = false;
-    public Text killText;
-    public Text objectiveText;
-    public Gridd gridd;
-    public Image endLevel;
-
-    public Text LevelCompletetion;
-    public Text optionalObjective;
-
-    public Text druidLevel;
-    public Text assasinLevel;
-    public Text frogLevel;
-    public Text paladinLevel;
-
-    public Slider druidXP;
-    public Slider assasinXP;
-    public Slider frogXP;
-    public Slider paladinXP;
 
 
     // Start is called before the first frame update
@@ -40,28 +17,55 @@ public class lvl1Objectives : objectives
                 child.gameObject.SetActive(false);
         }
         endLevel.gameObject.SetActive(false);
-        
 
+        List<int> list = new List<int>();
+        list = gridd.character1.loadData();
+        char1.text = list[0].ToString();
+        char1xp.value = list[1]/100;
+
+
+        list.RemoveAt(0);
+        list.RemoveAt(0);
+        list = gridd.character2.loadData();
+        char2.text = list[0].ToString();
+        char2xp.value = list[1] / 100;
+
+
+        list.RemoveAt(0);
+        list.RemoveAt(0); 
+        list = gridd.character3.loadData();
+        char3.text = list[0].ToString();
+        char3xp.value = list[1] / 100;
+
+
+        list.RemoveAt(0);
+        list.RemoveAt(0);
+        list = gridd.character4.loadData();
+        char4.text = list[0].ToString();
+        char4xp.value = list[1] / 100;
+
+
+        xpGain = 150;
     }
 
     // Update is called once per frame
     protected override void Update()
     {
 
-
         if (!gameOver)
         {
 
-            if (gridd.getKills() != kills)
-            {
-                kills = gridd.getKills();
-                killText.text = kills + "/" + killObjective;
+            
+            kills = gridd.getKills();
+            killText.text = kills + "/" + killObjective;
 
-                if (kills == 4)
-                {
+            if (kills >= killObjective)
+            {
                     gameOver = true;
                     endLevel.enabled = true;
                     gridd.endLevel();
+
+                    
 
                     foreach (Transform child in endLevel.transform)
                     {
@@ -69,27 +73,28 @@ public class lvl1Objectives : objectives
                     }
                     endLevel.gameObject.SetActive(true);
 
-                    if (gridd.getTurn() > 10)
+                    if (gridd.getTurn() > turnObjective)
                     {
                         foreach (Transform child in optionalObjective.transform)
                         {
                             child.gameObject.SetActive(false);
                         }
                         optionalObjective.enabled = false;
-                        xpGain = 100;
+                        
                     }
-                    else
-                    {
-                        xpGain = 150;
-                    }
-                }
-
             }
+
 
             if (gridd.getTurn() != turns)
             {
+
                 turns = gridd.getTurn();
+
                 objectiveText.text = turns + "/" + turnObjective;
+                if (turns > turnObjective)
+                {
+                    xpGain -= 50;
+                }
             }
         }
         else
@@ -97,44 +102,78 @@ public class lvl1Objectives : objectives
 
             if (Time.frameCount % 5 == 0)
             {
-                druidXP.value = (float)(druidXP.value + 1.0 / 100.0);
-                assasinXP.value = (float)(assasinXP.value + 1.0 / 100.0);
-                frogXP.value = (float)(frogXP.value + 1.0 / 100.0);
-                paladinXP.value = (float)(paladinXP.value + 1.0 / 100.0);
+                char1xp.value = (float)(char1xp.value + 1.0 / 100.0);
+                char2xp.value = (float)(char2xp.value + 1.0 / 100.0);
+                char3xp.value = (float)(char3xp.value + 1.0 / 100.0);
+                char4xp.value = (float)(char4xp.value + 1.0 / 100.0);
+
+
                 xpGain--;
 
-                if (druidXP.value >= 0.99)
+                if (char1xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(druidLevel.text);
+                    var i = Int32.Parse(char1.text);
                     i++;
-                    druidLevel.text = i.ToString();
-                    druidXP.value = 0;
+                    char1.text = i.ToString();
+                    char1xp.value = 0;
                 }
-                if (assasinXP.value >= 0.99)
+                if (char2xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(assasinLevel.text);
+                    var i = Int32.Parse(char2.text);
                     i++;
-                    assasinLevel.text = i.ToString();
-                    assasinXP.value = 0;
+                    char2.text = i.ToString();
+                    char2xp.value = 0;
                 }
-                if (frogXP.value >= 0.99)
+                if (char3xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(frogLevel.text);
+                    var i = Int32.Parse(char3.text);
                     i++;
-                    frogLevel.text = i.ToString();
-                    frogXP.value = 0;
+                    char3.text = i.ToString();
+                    char3xp.value = 0;
                 }
-                if (paladinXP.value >= 0.99)
+                if (char4xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(paladinLevel.text);
+                    var i = Int32.Parse(char4.text);
                     i++;
-                    paladinLevel.text = i.ToString();
-                    paladinXP.value = 0;
+                    char4.text = i.ToString();
+                    char4xp.value = 0;
                 }
 
                 if (xpGain == 0)
                 {
                     enabled = false;
+
+                    List<int> list = new List<int>();
+                    list.Add(Int32.Parse(char1.text));
+                    list.Add(Mathf.RoundToInt(char1xp.value * 100));
+
+
+                    gridd.character1.saveData(list);
+
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.Add(Int32.Parse(char2.text));
+                    list.Add(Mathf.RoundToInt(char2xp.value * 100));
+
+
+                    gridd.character2.saveData(list);
+
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.Add(Int32.Parse(char3.text));
+                    list.Add(Mathf.RoundToInt(char3xp.value * 100));
+
+
+                    gridd.character3.saveData(list);
+
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.Add(Int32.Parse(char4.text));
+                    list.Add(Mathf.RoundToInt(char4xp.value * 100));
+
+                    gridd.character4.saveData(list);
+
+
                 }
             }
         }
@@ -155,6 +194,5 @@ public class lvl1Objectives : objectives
 
         LevelCompletetion.text = "Level Failed";
     }
-
 
 }

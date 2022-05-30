@@ -23,6 +23,7 @@ public class TileSelect
     public Vector3Int getCorrectSelectedPosition(Vector3 loc)
     {
 
+
         Vector3 selectWorldPosition = Camera.main.ScreenToWorldPoint(loc);
         Vector3Int tilePos = grid.getIsometricCoordinates(selectWorldPosition);
         Vector3Int otherTilePos = grid.getIsometricCoordinates(selectWorldPosition);
@@ -197,6 +198,8 @@ public class TileSelect
                 underTilePos.y--;
             }
         }
+        
         return tilePos;
+
     }
 }

@@ -184,6 +184,13 @@ public virtual String damageAbility1()
         return maxHP;
     }
 
+    public virtual void saveData(List<int> values)
+    {
 
+    }
+    public virtual List<int> loadData()
+    {
+        return null;
+    }
 
 }

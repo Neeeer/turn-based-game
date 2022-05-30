@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,10 +33,10 @@ public class Gridd : MonoBehaviour
     private int kills;
     private int turns;
 
-    private Druid character1;
-    private Frog character2;
-    private Assasin character3;
-    private Paladin character4;
+    public Druid character1;
+    public Frog character2;
+    public Assasin character3;
+    public Paladin character4;
 
 
     public GameObject char1;
@@ -114,10 +115,16 @@ public class Gridd : MonoBehaviour
         setUpEntities(enemie);
         fog.startGameDefog();
         healthbar.removeHealthBar();
-
         nextTurn();
+        
     }
 
+     IEnumerator startGame()
+    {
+
+        yield return new WaitForSeconds(3);
+        nextTurn();
+    }
 
     public void selectAbility()
     {
@@ -392,10 +399,8 @@ public class Gridd : MonoBehaviour
             if (fog.enemyMoveRefog(currentTurn))
             {
 
-
                 CameraLoc cameraAccess = camera.GetComponent<CameraLoc>();
                 Vector3 movingToo = currentTurn.getGameobject().transform.position;
-                too.z = -10;
 
                 cameraAccess.moveCamera(camera.transform.position, movingToo);
 
@@ -547,7 +552,7 @@ public class Gridd : MonoBehaviour
             setUpUnit(enemy);
         }
     }
-
+    
     public void haltUpdate()
     {
         enabled = false;
@@ -597,7 +602,22 @@ public class Gridd : MonoBehaviour
     }
 
     public Vector3Int selectATile(Vector3 location) { 
-        return tileSelector.getCorrectSelectedPosition(location);
+        
+
+       Vector3Int test = tileSelector.getCorrectSelectedPosition(location);
+        
+        //Debug.Log(" press or release" + test);
+
+        /*
+        if (checkBounds(test))
+        {
+
+            Debug.Log("fog" + cells[test.x + getXoffset(), test.y + getYoffset()].getzAxis());
+            Debug.Log("fog" + cells[test.x + getXoffset(), test.y + getYoffset()].getFog());
+
+        }
+        */
+        return test;
     }
 
     

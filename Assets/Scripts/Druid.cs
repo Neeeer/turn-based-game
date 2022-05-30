@@ -128,4 +128,20 @@ public class Druid  : Character
     {
         HP = HP - h;
     }
+
+
+    public override void saveData(List<int> values)
+    {
+        Player.instance.druidLevel = values[0];
+        Player.instance.druidXp = values[1];
+        Player.instance.SavePlayer();
+    }
+    public override List<int> loadData()
+    {
+        List<int> list = new List<int>();
+        list.Add(Player.instance.druidLevel);
+        list.Add(Player.instance.druidXp);
+        return list;
+    }
+
 }

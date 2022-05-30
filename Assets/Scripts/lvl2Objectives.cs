@@ -6,29 +6,6 @@ using UnityEngine.UI;
 
 public class lvl2Objectives : objectives
 {
-    int killObjective = 6;
-    int kills = 0;
-    int turnObjective = 8;
-    int turns = 0;
-    int xpGain = 150;
-    bool gameOver = false;
-    public Text killText;
-    public Text objectiveText;
-    public Gridd gridd;
-    public Image endLevel;
-
-    public Text LevelCompletetion;
-    public Text optionalObjective;
-
-    public Text druidLevel;
-    public Text assasinLevel;
-    public Text frogLevel;
-    public Text paladinLevel;
-
-    public Slider druidXP;
-    public Slider assasinXP;
-    public Slider frogXP;
-    public Slider paladinXP;
 
 
     // Start is called before the first frame update
@@ -40,7 +17,7 @@ public class lvl2Objectives : objectives
         }
         endLevel.gameObject.SetActive(false);
 
-        paladinXP.value = 1 / 2;
+        char4xp.value = 1 / 2;
     }
 
     // Update is called once per frame
@@ -96,39 +73,39 @@ public class lvl2Objectives : objectives
 
             if (Time.frameCount % 3 == 0)
             {
-                druidXP.value = (float)(druidXP.value + 1.0 / 100.0);
-                assasinXP.value = (float)(assasinXP.value + 1.0 / 100.0);
-                frogXP.value = (float)(frogXP.value + 1.0 / 100.0);
-                paladinXP.value = (float)(paladinXP.value + 1.0 / 100.0);
+                char1xp.value = (float)(char1xp.value + 1.0 / 100.0);
+                char2xp.value = (float)(char2xp.value + 1.0 / 100.0);
+                char3xp.value = (float)(char3xp.value + 1.0 / 100.0);
+                char4xp.value = (float)(char4xp.value + 1.0 / 100.0);
                 xpGain--;
 
-                if (druidXP.value >= 0.99)
+                if (char1xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(druidLevel.text);
+                    var i = Int32.Parse(char1.text);
                     i++;
-                    druidLevel.text = i.ToString();
-                    druidXP.value = 0;
+                    char1.text = i.ToString();
+                    char1xp.value = 0;
                 }
-                if (assasinXP.value >= 0.99)
+                if (char2xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(assasinLevel.text);
+                    var i = Int32.Parse(char2.text);
                     i++;
-                    assasinLevel.text = i.ToString();
-                    assasinXP.value = 0;
+                    char2.text = i.ToString();
+                    char2xp.value = 0;
                 }
-                if (frogXP.value >= 0.99)
+                if (char3xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(frogLevel.text);
+                    var i = Int32.Parse(char3.text);
                     i++;
-                    frogLevel.text = i.ToString();
-                    frogXP.value = 0;
+                    char3.text = i.ToString();
+                    char3xp.value = 0;
                 }
-                if (paladinXP.value >= 0.99)
+                if (char4xp.value >= 0.99)
                 {
-                    var i = Int32.Parse(paladinLevel.text);
+                    var i = Int32.Parse(char4.text);
                     i++;
-                    paladinLevel.text = i.ToString();
-                    paladinXP.value = 0;
+                    char4.text = i.ToString();
+                    char4xp.value = 0;
                 }
 
                 if (xpGain == 0)

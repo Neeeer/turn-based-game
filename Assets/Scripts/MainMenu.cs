@@ -6,26 +6,39 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    public void PlayLevel1()
+    private int selectedLevel = 0;
+    private List<int> levelList;
+
+
+    private void Awake()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        levelList = new List<int>();
+    }
+
+    public void selectLevel1()
+    {
+        selectedLevel = 1;
     }
     public void menus()
     {
         SceneManager.LoadScene(0);
     }
 
-    public void PlayLevel2()
+    public void selectLevel2()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        selectedLevel = 2;
     }
     public void QuitGame()
     {
         Application.Quit();
     }
-    public void Controls()
+   
+    
+
+    public void playLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + selectedLevel);
+
     }
 
 }

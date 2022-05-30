@@ -32,6 +32,7 @@ public class Inputs: MonoBehaviour
     private Vector3 touchEndPosition;
 
     private Vector3 touchLastPosition;
+    private int oldLocation = 0;
 
     private int abilityHudx = 570;
     private int abilityHudy = 180;
@@ -109,7 +110,7 @@ public class Inputs: MonoBehaviour
         tileSelector = grid.getTileSelector();
         cells = grid.getCellGrid();
         cellxoffset = grid.getXoffset();
-        cellyoffset = grid.getXoffset();
+        cellyoffset = grid.getYoffset();
     }
 
     public void press()
@@ -226,7 +227,7 @@ public class Inputs: MonoBehaviour
             tilemap.SetTile(getSelectedPosition(), null);
         }
 
-        var p = tileSelector.getCorrectSelectedPosition(touchEndPosition);
+        var p = grid.selectATile(touchEndPosition);
 
 
         if (grid.checkBounds(p))
@@ -304,7 +305,7 @@ public class Inputs: MonoBehaviour
 
 
         Vector3 old = Camera.main.ScreenToWorldPoint(touchLastP);
-        int oldLocation = 0;
+        
         Vector3 neew = Camera.main.ScreenToWorldPoint(touchEndP);
 
 
@@ -320,10 +321,15 @@ public class Inputs: MonoBehaviour
         {
             if (cells[too.x + cellxoffset, too.y + cellyoffset].getCharacter() != grid.getCurrentTurn())
             {
+                if (!tilemap.HasTile(too))
+                {
+                    return;
+                }
                 if (!grid.checkIfCanPass(too))
                 {
                     return;
                 }
+                
             }
         }
 

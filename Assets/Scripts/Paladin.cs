@@ -131,4 +131,18 @@ public class Paladin : Character
         HP = HP - h;
     }
 
+    public override void saveData(List<int> values)
+    {
+        Player.instance.paladinLevel = values[0];
+        Player.instance.paladinXp = values[1];
+        Player.instance.SavePlayer();
+    }
+    public override List<int> loadData()
+    {
+        List<int> list = new List<int>();
+        list.Add(Player.instance.paladinLevel);
+        list.Add(Player.instance.paladinXp);
+        return list;
+    }
+
 }
