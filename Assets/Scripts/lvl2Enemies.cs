@@ -21,8 +21,9 @@ public class lvl2Enemies : lvlEnemies
     private Character enemy6;
 
     List<Character> enemiess;
+    List<Vector3> charLocations;
+    List<Vector2> cameraBoundries;
 
-   
     public override void Awake()
     {
         enemy1 = new Enemies();
@@ -47,10 +48,35 @@ public class lvl2Enemies : lvlEnemies
         enemiess.Add(enemy5);
         enemiess.Add(enemy6);
 
+        cameraBoundries = new List<Vector2>();
+
+        cameraBoundries.Add(new Vector2(6, 5));
+        cameraBoundries.Add(new Vector2(-6, -5));
+
     }
 
     public override List<Character> getEnemies()
     {
         return enemiess;
+    }
+
+    public override void initializeCharacterLocations()
+    {
+
+        charLocations = new List<Vector3>();
+        charLocations.Add(new Vector3(-2f, -2f, 0f));
+        charLocations.Add(new Vector3(-1f, -2.5f, 0f));
+        charLocations.Add(new Vector3(-1.5f, -1.75f, 0f));
+        charLocations.Add(new Vector3(-0.5f, -2.25f, 0f));
+    }
+
+    public override List<Vector3> getCharacterStartingPositions()
+    {
+        return charLocations;
+    }
+
+    public override List<Vector2> getCameraBoundries()
+    {
+         return cameraBoundries;
     }
 }

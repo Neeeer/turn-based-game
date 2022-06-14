@@ -15,4 +15,17 @@ public class lvlEnemies : MonoBehaviour
     {
         return null;
     }
+    public virtual void initializeCharacterLocations()
+    {
+
+    }
+
+    public virtual List<Vector3> getCharacterStartingPositions()
+    {
+        return null;
+    }
+    public virtual List<Vector2> getCameraBoundries()
+    {
+        return null;
+    }
 }

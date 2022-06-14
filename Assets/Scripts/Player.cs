@@ -15,7 +15,7 @@ public class  Player : MonoBehaviour
     public int frogLevel;
 
     private List<int> equippedAbilities;
-
+    private List<string> characterList;
 
     public static Player instance { get; private set; }
 
@@ -73,5 +73,15 @@ public class  Player : MonoBehaviour
     public List<int> getPlayerAbilities()
     {
         return equippedAbilities;
+    }
+
+    public void setCharacterList(List<string> charList)
+    {
+        characterList = charList;
+    }
+
+    public List<string> getCharacterList()
+    {
+        return characterList;
     }
 }

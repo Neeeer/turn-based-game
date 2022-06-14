@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class Inputs: MonoBehaviour 
+public class Inputs : MonoBehaviour
 {
     public Tilemap tilemap;
     private List<Vector3Int> movementPositions;
@@ -61,12 +61,12 @@ public class Inputs: MonoBehaviour
     private Tile selectedp;
 
 
-    private void OnEnable()
+    public void OnEnable()
     {
         controls.Enable();
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         controls.Disable();
     }
@@ -94,7 +94,7 @@ public class Inputs: MonoBehaviour
         arrowrightr = Resources.Load<Tile>("isometric tilemap/arrows/b,r,1,0");
         arrowrightl = Resources.Load<Tile>("isometric tilemap/arrows/t,l,1,0");
         selectedp = Resources.Load<Tile>("isometric tilemap/arrows/selectedPosition");
-        selectedPosition = new Vector3Int(1,1,5);
+        selectedPosition = new Vector3Int(1, 1, 5);
     }
 
     private void Update()
@@ -190,8 +190,22 @@ public class Inputs: MonoBehaviour
         else
         {
             Vector3 direction = touchLastPosition - touchEndPosition;
+            Vector3 cameraTempLoc = Camera.main.transform.position + direction / 100;
+            List<Vector2> cameraBoundries = grid.getCameraBoundries();
 
-            Camera.main.transform.position += direction / 100;
+            if (cameraTempLoc.x > cameraBoundries[0].x || cameraTempLoc.x < cameraBoundries[1].x)
+            {
+                
+            }
+            else if (cameraTempLoc.y > cameraBoundries[0].y || cameraTempLoc.y < cameraBoundries[1].y)
+            {
+
+            }
+            else
+            {
+                Camera.main.transform.position += direction / 100;
+            }
+
             touchLastPosition = touchEndPosition;
         }
 
@@ -305,7 +319,7 @@ public class Inputs: MonoBehaviour
 
 
         Vector3 old = Camera.main.ScreenToWorldPoint(touchLastP);
-        
+
         Vector3 neew = Camera.main.ScreenToWorldPoint(touchEndP);
 
 
@@ -329,7 +343,7 @@ public class Inputs: MonoBehaviour
                 {
                     return;
                 }
-                
+
             }
         }
 
@@ -350,7 +364,7 @@ public class Inputs: MonoBehaviour
                     {
                         if (oldLocation == 1)
                         {
-                            movingBack(touchEndP, oldLocation);
+                            movingBack(touchEndP);
                         }
                         else if (movementRange == 0)
                         {
@@ -385,7 +399,7 @@ public class Inputs: MonoBehaviour
 
                         if (oldLocation == 3)
                         {
-                            movingBack(touchEndP, oldLocation);
+                            movingBack(touchEndP);
                         }
                         else if (movementRange == 0)
                         {
@@ -431,7 +445,7 @@ public class Inputs: MonoBehaviour
                     {
                         if (oldLocation == 2)
                         {
-                            movingBack(touchEndP, oldLocation);
+                            movingBack(touchEndP);
                         }
                         else if (movementRange == 0)
                         {
@@ -467,7 +481,7 @@ public class Inputs: MonoBehaviour
 
                         if (oldLocation == 4)
                         {
-                            movingBack(touchEndP, oldLocation);
+                            movingBack(touchEndP);
                         }
                         else if (movementRange == 0)
                         {
@@ -505,9 +519,9 @@ public class Inputs: MonoBehaviour
         }
     }
 
-    
 
-    void movingBack(Vector3 touchEndP, int oldLocation)
+
+    void movingBack(Vector3 touchEndP)
     {
 
         movementDirections.RemoveAt(movementDirections.Count - 1);
@@ -518,8 +532,6 @@ public class Inputs: MonoBehaviour
         }
         else
         {
-            movementDirections.RemoveAt(movementDirections.Count - 1);
-
             oldLocation = movementDirections.Last();
         }
 
@@ -547,11 +559,17 @@ public class Inputs: MonoBehaviour
         {
             movementDirections.RemoveAt(0);
         }
+        oldLocation = 0;
     }
 
 
     public Vector3Int getSelectedPosition()
     {
         return selectedPosition;
+    }
+
+    public List<Vector3Int> getMovementPositions()
+    {
+        return movementPositions;
     }
 }

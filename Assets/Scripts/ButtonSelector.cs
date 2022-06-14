@@ -124,13 +124,39 @@ public class ButtonSelector : MonoBehaviour
 
     public void disableButtons()
     {
+        confirmAbility.interactable = (false);
+        disableAbilities();
+    }
+
+    public void enableButtons()
+    {
+        confirmAbility.interactable = (true);
+        enableAbilities();
+    }
+
+    public void enableConfirmButton()
+    {
+        confirmAbility.interactable = (true);
+    }
+
+
+    public void disableAbilities()
+    {
         ability1Button.interactable = (false);
         ability2Button.interactable = (false);
         ability3Button.interactable = (false);
         ability4Button.interactable = (false);
-
-
     }
+
+    public void enableAbilities()
+    {
+        ability1Button.interactable = (true);
+        ability2Button.interactable = (true);
+        ability3Button.interactable = (true);
+        ability4Button.interactable = (true);
+    }
+
+
 
     public void setCurrentTurnAbilities()
     {
@@ -142,5 +168,15 @@ public class ButtonSelector : MonoBehaviour
         ability4dmg.text = currentTurn.damageAbility4();
 
     }
+
+    public void disableAbilityHighlights()
+    {
+        foreach (Transform child in this.gameObject.transform)
+        {
+            GameObject abilityText = child.Find("button text").gameObject;
+            abilityText.SetActive(false);
+        }
+    }
+
 
 }
