@@ -16,8 +16,11 @@ public class lvl1Enemies : lvlEnemies
     private Character enemy3;
     private Character enemy4;
 
-    public Gridd gridd;
     List<Character> enemiess;
+
+    List<Vector3> charLocations;
+    List<Vector2> cameraBoundries;
+
 
 
     public override void Awake()
@@ -38,6 +41,10 @@ public class lvl1Enemies : lvlEnemies
         enemiess.Add(enemy3);
         enemiess.Add(enemy4);
 
+        cameraBoundries = new List<Vector2>();
+
+        cameraBoundries.Add(new Vector2(6,5));
+        cameraBoundries.Add(new Vector2(-6, -5));
     }
 
     public override List<Character> getEnemies()
@@ -45,5 +52,24 @@ public class lvl1Enemies : lvlEnemies
         return enemiess;
     }
 
+    public override void initializeCharacterLocations()
+    {
+
+        charLocations = new List<Vector3>();
+        charLocations.Add(new Vector3(0.5f,-0.25f,0f));
+        charLocations.Add(new Vector3(1.5f, -0.75f, 0f));
+        charLocations.Add(new Vector3(0.5f, -1.25f, 0f));
+        charLocations.Add(new Vector3(-0.5f, -1.25f, 0f));
+    }
+
+    public override List<Vector3> getCharacterStartingPositions()
+    {
+        return charLocations;
+    }
+
+    public override List<Vector2> getCameraBoundries()
+    {
+         return cameraBoundries;
+    }
 
 }

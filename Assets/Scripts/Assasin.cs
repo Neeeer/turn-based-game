@@ -147,4 +147,19 @@ public class Assasin : Character
     {
         HP = HP - h;
     }
+
+    public override void saveData(List<int> values)
+    {
+        Player.instance.assasinLevel = values[0];
+        Player.instance.assasinXp = values[1];
+        Player.instance.SavePlayer();
+    }
+    public override List<int> loadData()
+    {
+        List<int> list = new List<int>();
+        list.Add(Player.instance.assasinLevel);
+        list.Add(Player.instance.assasinXp);
+        return list;
+    }
+
 }

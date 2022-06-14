@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class Gridd : MonoBehaviour
     public lvlEnemies lvlenemies;
     public objectives objectives;
     public ButtonSelector ButtonSelect;
+    public CharacterMovement characterMovement;
 
     public new Camera camera;
     public Inputs inputs;
@@ -28,20 +30,14 @@ public class Gridd : MonoBehaviour
     private int cellxOffset;
     private int cellyOffset;
 
-    private float zAxisyIncrease = (float)0.36;
+    public float zAxisyIncrease = (float)0.36;
     private int kills;
     private int turns;
 
-    private Druid character1;
-    private Frog character2;
-    private Assasin character3;
-    private Paladin character4;
-
-
-    public GameObject char1;
-    public GameObject char2;
-    public GameObject char3;
-    public GameObject char4;
+    public Character character1;
+    public Character character2;
+    public Character character3;
+    public Character character4;
 
 
     public Healthbar healthbar;
@@ -86,7 +82,6 @@ public class Gridd : MonoBehaviour
 
         lavaTile = Resources.Load<Tile>("isometric tilemap/25-ground-blocks/lava");
 
-
         TilemapSetup tilemapSetup = new TilemapSetup();
         tilemap.CompressBounds();
         bounds = tilemap.cellBounds;
@@ -114,10 +109,11 @@ public class Gridd : MonoBehaviour
         setUpEntities(enemie);
         fog.startGameDefog();
         healthbar.removeHealthBar();
-
         nextTurn();
+        
     }
 
+    
 
     public void selectAbility()
     {
@@ -128,7 +124,23 @@ public class Gridd : MonoBehaviour
     {
         if (getMovementAction())
         {
-            
+            var currentCharacterLocation = getCurrentTurn().getLocation();
+
+            tileHighlighter.removeCurrentTurnTile(currentCharacterLocation);
+
+            checkIfSelected(currentCharacterLocation, movingToo);
+
+            cells[currentCharacterLocation.x + getXoffset(), currentCharacterLocation.y + getYoffset()].removeCharacter();
+            cells[movingToo.x + getXoffset(), movingToo.y + getYoffset()].setCharacter(currentTurn);
+
+
+            getCurrentTurn().setLocation(movingToo);
+
+            tileHighlighter.setCurrentTurnTile(movingToo);
+
+            fog.playerMoveRefog(currentCharacterLocation, movingToo);
+
+
             inputs.emptyMovementList();
             inputs.emptyDirectionList();
             tileHighlighter.emptyHighlightedList();
@@ -136,12 +148,10 @@ public class Gridd : MonoBehaviour
             abilitySelected = 1;
             ButtonSelect.ability1Button.Select();
 
-            ButtonSelect.ability1Button.interactable = (true);
-            ButtonSelect.ability2Button.interactable = (true);
-            ButtonSelect.ability3Button.interactable = (true);
-            ButtonSelect.ability4Button.interactable = (true);
+            
 
             movementAction = false;
+            ButtonSelect.enableButtons();
             ButtonSelect.selectAbility1();
             phase.text = "Action Phase";
 
@@ -154,12 +164,12 @@ public class Gridd : MonoBehaviour
 
             movementAction = false;
             attackAction = false;
-            ButtonSelect.ability1Button.interactable = (false);
-            ButtonSelect.ability2Button.interactable = (false);
-            ButtonSelect.ability3Button.interactable = (false);
-            ButtonSelect.ability4Button.interactable = (false);
+            ButtonSelect.enableConfirmButton();
 
             tileHighlighter.removeCurrentTurnTile(currentTurn.getLocation());
+
+            currentTurn.getGameobject().GetComponent<Animator>().speed = 0;
+
             Turn++;
             nextTurn();
 
@@ -169,37 +179,28 @@ public class Gridd : MonoBehaviour
 
     public void confirmAction()
     {
+        ButtonSelect.disableButtons();
         if (getMovementAction())
         {
+            
+            startMovement();
+
+            // yield return method to wait until movement is done
 
 
-            var currentCharacterLocation = currentTurn.getLocation();
 
-            tileHighlighter.removeCurrentTurnTile(currentCharacterLocation);
+            //  Vector3 v = getNonIsometricCoordinatesGo(movingToo);
 
-            Vector3 v = getNonIsometricCoordinatesGo(movingToo);
+            // v.z = cells[movingToo.x + getXoffset(), movingToo.y + getYoffset()].getzAxis();
 
-            v.z = cells[movingToo.x + getXoffset(), movingToo.y + getYoffset()].getzAxis();
+            //  v.y += zAxisyIncrease * v.z;
+            // v.y = Mathf.Round(v.y * 100f) / 100f;
 
-            v.y += zAxisyIncrease * v.z;
-            v.y = Mathf.Round(v.y * 100f) / 100f;
+            
+            // getCurrentTurn().getGameobject().transform.position = v;
 
+           
 
-            checkIfSelected(currentCharacterLocation, movingToo);
-
-            cells[currentCharacterLocation.x + getXoffset(), currentCharacterLocation.y + getYoffset()].removeCharacter();
-            cells[movingToo.x + getXoffset(), movingToo.y + getYoffset()].setCharacter(currentTurn);
-
-
-            getCurrentTurn().setLocation(movingToo);
-            getCurrentTurn().getGameobject().transform.position = v;
-
-            tileHighlighter.setCurrentTurnTile(movingToo);
-
-
-            fog.playerMoveRefog(currentCharacterLocation, movingToo);
-
-            endTurn();
         }
         else if (getAttackAction())
         {
@@ -238,13 +239,15 @@ public class Gridd : MonoBehaviour
 
     }
 
-    
+    private void startMovement()
+    {
+        characterMovement.moveCharacter(inputs.getMovementPositions(), movingToo);
+    }
 
-
-    
-
-
-    
+    public void endMovement()
+    {
+        endTurn();
+    }
 
     public bool checkBounds(Vector3Int v)
     {
@@ -310,7 +313,7 @@ public class Gridd : MonoBehaviour
 
     }
 
-    Vector3 getNonIsometricCoordinatesGo(Vector3Int zInt)
+    public Vector3 getNonIsometricCoordinatesGo(Vector3Int zInt)
     {
 
         Vector3 z = zInt;
@@ -341,6 +344,8 @@ public class Gridd : MonoBehaviour
             turns++;
         }
         currentTurn = (entityOrder[Turn]);
+        currentTurn.getGameobject().GetComponent<Animator>().speed = 1;
+
         if (entityOrder[Turn].GetisPlayer() == true)
         {
 
@@ -392,10 +397,8 @@ public class Gridd : MonoBehaviour
             if (fog.enemyMoveRefog(currentTurn))
             {
 
-
                 CameraLoc cameraAccess = camera.GetComponent<CameraLoc>();
                 Vector3 movingToo = currentTurn.getGameobject().transform.position;
-                too.z = -10;
 
                 cameraAccess.moveCamera(camera.transform.position, movingToo);
 
@@ -418,6 +421,8 @@ public class Gridd : MonoBehaviour
 
                 }
             }
+            currentTurn.getGameobject().GetComponent<Animator>().speed = 0;
+
 
             if (players.Count() == 0)
             {
@@ -447,26 +452,56 @@ public class Gridd : MonoBehaviour
 
     private void setUpParty()
     {
-        character1 = new Druid();
-        character2 = new Frog();
-        character3 = new Assasin();
-        character4 = new Paladin();
 
-        character1.setGameobject(char1);
-        character2.setGameobject(char2);
-        character3.setGameobject(char3);
-        character4.setGameobject(char4);
 
-        players.Add(character1);
-        players.Add(character2);
-        players.Add(character3);
-        players.Add(character4);
+        CharacterSetUp charSetUp = new CharacterSetUp();
+        List<string> charList = Player.instance.getCharacterList();
+        List<Character> characters = charSetUp.setUpCharacter(charList);
+        List<string> prefabList = charSetUp.getCharacterPrefabs();
 
-        foreach (Character player in players)
+        for (int i = 0; i< characters.Count; i++)
         {
-            setUpUnit(player);
-            characterOrder.Add(player);
+           
+            var Prefab = Resources.Load(prefabList[i]) as GameObject;
+            var variableForPrefab = GameObject.Instantiate(Prefab);
+            if (i == 0)
+            {
+                character1 = characters[i];
+
+                character1.setGameobject(variableForPrefab);
+                players.Add(character1);
+               
+            }
+            else if (i == 1)
+            {
+                character2 = characters[i];
+                character2.setGameobject(variableForPrefab);
+                players.Add(character2);
+            }
+            else if (i == 2)
+            {
+                character3 = characters[i];
+                character3.setGameobject(variableForPrefab);
+                players.Add(character3);
+            }
+            else if(i == 3)
+            {
+                character4 = characters[i];
+                character4.setGameobject(variableForPrefab);
+                players.Add(character4);
+            }
         }
+
+        lvlenemies.initializeCharacterLocations();
+        List<Vector3> charLoc = lvlenemies.getCharacterStartingPositions();
+
+        for (int i = 0;i< players.Count ;i++ )
+        {
+            players[i].getGameobject().transform.position = charLoc[i];
+            setUpUnit(players[i]);
+            characterOrder.Add(players[i]);
+        }
+
     }
 
     void setUpEntities(List<Character> ene)
@@ -491,6 +526,10 @@ public class Gridd : MonoBehaviour
             entityOrder.Add(ene[i]);
         }
 
+        foreach (Character entity in entityOrder)
+        {
+            entity.getGameobject().GetComponent<Animator>().speed = 0;
+        }
     }
 
 
@@ -532,6 +571,7 @@ public class Gridd : MonoBehaviour
     public void endLevel()
     {
         ButtonSelect.disableButtons();
+        ButtonSelect.disableAbilityHighlights();
         confirmAbility.interactable = (false);
     }
 
@@ -547,14 +587,18 @@ public class Gridd : MonoBehaviour
             setUpUnit(enemy);
         }
     }
-
+    
     public void haltUpdate()
     {
         enabled = false;
+        inputs.enabled = false;
+        inputs.OnDisable();
     }
     public void continueUpdate()
     {
         enabled = true;
+        inputs.OnEnable();
+        inputs.enabled = true;
     }
 
 
@@ -584,7 +628,10 @@ public class Gridd : MonoBehaviour
         return cellyOffset;
     }
 
-
+    public void setPlayers(List<Character> l)
+    {
+         players = l;
+    }
 
     public List<Character> getPlayers()
     {
@@ -597,7 +644,22 @@ public class Gridd : MonoBehaviour
     }
 
     public Vector3Int selectATile(Vector3 location) { 
-        return tileSelector.getCorrectSelectedPosition(location);
+        
+
+       Vector3Int test = tileSelector.getCorrectSelectedPosition(location);
+        
+        //Debug.Log(" press or release" + test);
+
+        /*
+        if (checkBounds(test))
+        {
+
+            Debug.Log("fog" + cells[test.x + getXoffset(), test.y + getYoffset()].getzAxis());
+            Debug.Log("fog" + cells[test.x + getXoffset(), test.y + getYoffset()].getFog());
+
+        }
+        */
+        return test;
     }
 
     
@@ -621,5 +683,9 @@ public class Gridd : MonoBehaviour
         return enemie;
     }
 
+    public List<Vector2> getCameraBoundries()
+    {
+        return lvlenemies.getCameraBoundries();
+    }
 
 }

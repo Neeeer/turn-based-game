@@ -9,7 +9,6 @@ public class TileHighlighter :MonoBehaviour
     Cell[,] cells;
     List<Vector3Int> highlightedPositions;
     
-    private Vector3Int selectedTurn;
     private List<Vector3Int> affectedPositions;
     private List<Vector2Int> highlightedAbility;
     public Gridd grid;
@@ -29,12 +28,10 @@ public class TileHighlighter :MonoBehaviour
         affectedPositions = new List<Vector3Int>();
         highlightedPositions = new List<Vector3Int>();
 
-        selectedTurn = new Vector3Int(0, 0, 0);
     }
 
     public void Start()
     {
-
         cells = grid.getCellGrid();
     }
 
@@ -60,6 +57,7 @@ public class TileHighlighter :MonoBehaviour
             }
             if (isNot)
             {
+
                 location.z = cells[location.x + grid.getXoffset(), location.y + grid.getYoffset()].getzAxis();
                 if (grid.checkBounds(location))
                 {
@@ -428,33 +426,7 @@ public class TileHighlighter :MonoBehaviour
         }
     }
 
-    public void highlightAbilityRange()
-    {
-        if (highlightedAbility.Count == 0)
-        {
-            affectedPositions = new List<Vector3Int>(highlightedPositions);
-
-
-            foreach (Vector3Int s in affectedPositions)
-            {
-
-                var position = s;
-                position.z = cells[position.x + grid.getXoffset(), position.y + grid.getYoffset()].getzAxis();
-
-                if (grid.checkBounds(position))
-                {
-                    if (tilemap.HasTile(position))
-                    {
-                        position.z += 1;
-                        tilemap.SetTile(position, getHighlightedp());
-                        tilemap.SetTileFlags(position, TileFlags.None);
-                        Color color = new Color(1.0f, 1.0f, 0.0f, 0.5f);
-                        tilemap.SetColor(position, color);
-                    }
-                }
-            }
-        }
-    }
+   
 
     public void setCurrentTurnTile(Vector3Int loc)
     {

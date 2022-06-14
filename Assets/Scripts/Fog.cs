@@ -133,7 +133,9 @@ public class Fog
 
     public bool enemyMoveRefog(Character c)
     {
+       // Debug.Log("start");
         Vector3Int loc = c.getLocation();
+        // Debug.Log("loc" + loc);
         if (cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].getFog() == true)
         {
             Renderer tempSprite = c.getGameobject().GetComponent<SpriteRenderer>();
@@ -142,6 +144,8 @@ public class Fog
         }
         else
         {
+
+           // Debug.Log("made it");
             Renderer tempSprite = c.getGameobject().GetComponent<SpriteRenderer>();
             tempSprite.enabled = true;
             return true;
@@ -183,13 +187,15 @@ public class Fog
         }
         checkVisibleUnits();
     }
+
     public void checkVisibleUnits()
     {
         foreach (Character e in grid.getEnemies())
         {
             if (cells[e.getLocation().x + grid.getXoffset(), e.getLocation().y + grid.getYoffset()].getFog() == true)
             {
-                e.getGameobject().SetActive(false);
+                e.getGameobject().GetComponent<SpriteRenderer>().enabled = false;
+               
             }
         }
 
