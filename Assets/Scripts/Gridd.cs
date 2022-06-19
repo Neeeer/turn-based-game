@@ -7,19 +7,21 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 
-
+// main logic flow class used in each level where the grid is set up and the turns are carried out.
 public class Gridd : MonoBehaviour
 {
 
     public Tilemap tilemap;
     public TileHighlighter tileHighlighter;
+
     private TileSelect tileSelector;
     private Fog fog;
 
     private Cell[,] cells;
+
     public lvlEnemies lvlenemies;
     public objectives objectives;
-    public ButtonSelector ButtonSelect;
+    public ButtonSelector buttonSelect;
     public CharacterMovement characterMovement;
 
     public new Camera camera;
@@ -42,17 +44,14 @@ public class Gridd : MonoBehaviour
 
     public Healthbar healthbar;
 
-
     public Text phase;
-
 
     public Button confirmAbility;
 
 
-    List<Character> characterOrder;
     List<Character> entityOrder;
     List<Character> players;
-    List<Character> enemie;
+    List<Character> enemies;
 
     private bool movementAction = false;
     private bool attackAction = false;
@@ -63,8 +62,6 @@ public class Gridd : MonoBehaviour
 
     private Tile lavaTile;
 
-    private int abilitySelected = 0;
-    private Vector3Int movingToo;
 
 
     [SerializeField] private Transform damagePopup;
@@ -74,29 +71,40 @@ public class Gridd : MonoBehaviour
     {
         Turn = 0;
 
-        characterOrder = new List<Character>();
+        // turn order of entities
         entityOrder = new List<Character>();
+        // player units order
         players = new List<Character>();
 
-        movingToo = new Vector3Int(0, 0, 0);
+        // tile intending to move too, otehr classes might need to use it
+        MovingToo = new Vector3Int(0, 0, 0);
 
+        // unpassable tile
         lavaTile = Resources.Load<Tile>("isometric tilemap/25-ground-blocks/lava");
 
+       
         TilemapSetup tilemapSetup = new TilemapSetup();
+        // get tilemap bounds
         tilemap.CompressBounds();
         bounds = tilemap.cellBounds;
+
+        // x and y offset to be able to convert lowest x and y positions of the tilemap to start at position 0,0
         cellxOffset = Mathf.Abs(bounds.xMin);
         cellyOffset = Mathf.Abs(bounds.yMin);
 
+        // set up the tilemap and each tile cell information
         cells = tilemapSetup.setUpTilemap(tilemap, lavaTile);
 
-
+        // set up player character party
         setUpParty();
 
+
+        // class to make sure the correct tile is selected according to elevation
         tileSelector = new TileSelect(this, tilemap, cells);
+
+        // class to calculate which tiles are visible to the player
         fog = new Fog(this, tilemap, cells);
 
-        
     }
 
 
@@ -104,133 +112,139 @@ public class Gridd : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // create add enemy to list and corresponding tile position
         addEnemy(lvlenemies.getEnemies());
 
-        setUpEntities(enemie);
+        // add enemies to turn order
+        setUpEntities(enemies);
+
+        // revel map tiles acording to player units starting positions
         fog.startGameDefog();
+
         healthbar.removeHealthBar();
+        // start first turn
         nextTurn();
-        
     }
 
-    
 
+    // display selected ability on the selected tile
     public void selectAbility()
     {
         tileHighlighter.highlightAbility();
     }
 
+
     public void endTurn()
     {
+
         if (getMovementAction())
         {
             var currentCharacterLocation = getCurrentTurn().getLocation();
 
+            // remove current turn highlighter
             tileHighlighter.removeCurrentTurnTile(currentCharacterLocation);
 
-            checkIfSelected(currentCharacterLocation, movingToo);
+            // ckeck if moving too position is selected to display healthbar if needed
+            checkIfSelected(currentCharacterLocation, MovingToo);
 
+            // remove character from tile and place it to the moving too tile, this in the future will be done in the character movement class as it moves along the desired movement path
             cells[currentCharacterLocation.x + getXoffset(), currentCharacterLocation.y + getYoffset()].removeCharacter();
-            cells[movingToo.x + getXoffset(), movingToo.y + getYoffset()].setCharacter(currentTurn);
+            cells[MovingToo.x + getXoffset(), MovingToo.y + getYoffset()].Character = currentTurn;
+
+            // set character location in character class to moving too tile
+            getCurrentTurn().setLocation(MovingToo);
+
+            // set current turn highlighter
+            tileHighlighter.setCurrentTurnTile(MovingToo);
+
+            // check vision of tiles surounding the character after movement and if the tiles surrounding the before movement position are still visible
+            fog.playerMoveRefog(currentCharacterLocation, MovingToo);
 
 
-            getCurrentTurn().setLocation(movingToo);
-
-            tileHighlighter.setCurrentTurnTile(movingToo);
-
-            fog.playerMoveRefog(currentCharacterLocation, movingToo);
-
-
+            // set up information for attack phase and empty movement lists and atributes
             inputs.emptyMovementList();
             inputs.emptyDirectionList();
             tileHighlighter.emptyHighlightedList();
             attackAction = true;
-            abilitySelected = 1;
-            ButtonSelect.ability1Button.Select();
-
             
+            buttonSelect.ability1Button.Select();
+
 
             movementAction = false;
-            ButtonSelect.enableButtons();
-            ButtonSelect.selectAbility1();
+            buttonSelect.enableButtons();
+            buttonSelect.selectAbility1();
             phase.text = "Action Phase";
-
 
         }
         else if (getAttackAction())
         {
+            // empty lists used in attack action and set up information for next turn
             tileHighlighter.emptyHighlightedList();
             tileHighlighter.emptyAffectedList();
 
             movementAction = false;
             attackAction = false;
-            ButtonSelect.enableConfirmButton();
+            buttonSelect.enableConfirmButton();
 
             tileHighlighter.removeCurrentTurnTile(currentTurn.getLocation());
 
+            // set animation of the current turn sprite to 0 
             currentTurn.getGameobject().GetComponent<Animator>().speed = 0;
 
             Turn++;
             nextTurn();
-
         }
 
     }
 
     public void confirmAction()
     {
-        ButtonSelect.disableButtons();
+        buttonSelect.disableButtons();
         if (getMovementAction())
         {
-            
+            //moveme character sprite from a to b
             startMovement();
-
-            // yield return method to wait until movement is done
-
-
-
-            //  Vector3 v = getNonIsometricCoordinatesGo(movingToo);
-
-            // v.z = cells[movingToo.x + getXoffset(), movingToo.y + getYoffset()].getzAxis();
-
-            //  v.y += zAxisyIncrease * v.z;
-            // v.y = Mathf.Round(v.y * 100f) / 100f;
-
-            
-            // getCurrentTurn().getGameobject().transform.position = v;
-
-           
 
         }
         else if (getAttackAction())
         {
+            // for each tile affected by ability
             foreach (Vector3Int s in tileHighlighter.getAffectedPositions())
             {
 
                 var position = s;
-                position.z = cells[position.x + getXoffset(), position.y + getYoffset()].getzAxis();
+                position.z = cells[position.x + getXoffset(), position.y + getYoffset()].zAxis;
 
-                if (cells[position.x + getXoffset(), position.y + getYoffset()].getOcupied() == true)
+                // if it is occupied by a unit
+                if (cells[position.x + getXoffset(), position.y + getYoffset()].Occupied)
                 {
-                    Character currentChara = cells[position.x + getXoffset(), position.y + getYoffset()].getCharacter();
+                    Character affectedChar = cells[position.x + getXoffset(), position.y + getYoffset()].Character;
 
-                    currentTurn.useAbility(this, currentChara, abilitySelected);
+                    // use ability on character in the tile
+                    currentTurn.useAbility(this, affectedChar, buttonSelect.getAbilitySelected());
 
-                    if (currentChara.getHealth() <= 0)
+                    // if the unit drops below 0 health
+                    if (affectedChar.Health <= 0)
                     {
-                        currentChara.death();
-                        currentChara.getGameobject().SetActive(false);
-                        if (currentChara.GetisPlayer())
+                        // unit dies
+                        affectedChar.death();
+                        // remove unit sprite
+                        affectedChar.getGameobject().SetActive(false);
+
+                        // remove unit from lists
+                        if (affectedChar.GetisPlayer())
                         {
-                            players.Remove(currentChara);
+                            players.Remove(affectedChar);
                         }
                         else
                         {
-                            enemie.Remove(currentChara);
+                            enemies.Remove(affectedChar);
+                            // if killed a enemy update kill count
                             kills++;
                         }
-                        entityOrder.Remove(currentChara);
-                        cells[currentChara.getLocation().x + getXoffset(), currentChara.getLocation().y + getYoffset()].removeCharacter();
+                        entityOrder.Remove(affectedChar);
+                        // remove unit from tile
+                        cells[affectedChar.getLocation().x + getXoffset(), affectedChar.getLocation().y + getYoffset()].removeCharacter();
                     }
                 }
             }
@@ -241,14 +255,11 @@ public class Gridd : MonoBehaviour
 
     private void startMovement()
     {
-        characterMovement.moveCharacter(inputs.getMovementPositions(), movingToo);
+        characterMovement.moveCharacter(inputs.getMovementPositions(), MovingToo);
     }
 
-    public void endMovement()
-    {
-        endTurn();
-    }
-
+    
+    // check if selected tile is within tilemap bounds
     public bool checkBounds(Vector3Int v)
     {
         if (v.x >= bounds.xMin && v.x < bounds.xMax)
@@ -258,17 +269,16 @@ public class Gridd : MonoBehaviour
                 return true;
             }
         }
-
         return false;
     }
 
     
-
+    // check if tile is passable
     public bool checkIfCanPass(Vector3Int v)
     {
-        if (!cells[v.x + getXoffset(), v.y + getYoffset()].getOcupied())
+        if (!cells[v.x + getXoffset(), v.y + getYoffset()].Occupied)
         {
-            if (cells[v.x + getXoffset(), v.y + getYoffset()].getPassable())
+            if (cells[v.x + getXoffset(), v.y + getYoffset()].Passable)
             {
                 return true;
             }
@@ -276,7 +286,7 @@ public class Gridd : MonoBehaviour
         return false;
     }
 
-
+    // transform world coordinates to isometric coordinates
     public Vector3Int getIsometricCoordinates(Vector3 z)
     {
         double tempx = z.x;
@@ -289,6 +299,7 @@ public class Gridd : MonoBehaviour
         return zInt;
     }
 
+    // transform isometric coordinates to world coordinates
     public Vector3 getNonIsometricCoordinates(Vector3Int zInt)
     {
 
@@ -301,8 +312,8 @@ public class Gridd : MonoBehaviour
         return z;
     }
 
-
-    Vector3Int getIsometricCoordinatesGo(Vector3 z)
+    // transform world coordinates to isometric coordinates to find what tile the sprite is standing on
+    Vector3Int getIsometricCoordinatesForSprite(Vector3 z)
     {
         double tempx = z.x;
         double tempy = z.y - 0.36 * z.z;
@@ -313,7 +324,8 @@ public class Gridd : MonoBehaviour
 
     }
 
-    public Vector3 getNonIsometricCoordinatesGo(Vector3Int zInt)
+    // transform isometric coordinates to world coordinates to know where to move sprite to from tile to tile
+    public Vector3 getNonIsometricCoordinatesForSprite(Vector3Int zInt)
     {
 
         Vector3 z = zInt;
@@ -325,17 +337,17 @@ public class Gridd : MonoBehaviour
         return z;
     }
 
-
+    // set up unit on the tile the sprite is standing on at the start of the level
     public void setUpUnit(Character c)
     {
         Vector3 zz = c.getGameobject().transform.position;
-        Vector3Int zzz = getIsometricCoordinatesGo(zz);
-        cells[zzz.x + getXoffset(), zzz.y + getYoffset()].setCharacter(c);
+        Vector3Int zzz = getIsometricCoordinatesForSprite(zz);
+        cells[zzz.x + getXoffset(), zzz.y + getYoffset()].Character = c;
         c.setLocation(zzz);
     }
 
 
-
+    // upon changing current units turn
     public void nextTurn()
     {
         if (Turn >= entityOrder.Count)
@@ -344,24 +356,30 @@ public class Gridd : MonoBehaviour
             turns++;
         }
         currentTurn = (entityOrder[Turn]);
+
+        // play animation of the current turn unit
         currentTurn.getGameobject().GetComponent<Animator>().speed = 1;
 
+        // if its a player unit turn
         if (entityOrder[Turn].GetisPlayer() == true)
         {
-
+            // set current turn tile highlighter
             tileHighlighter.setCurrentTurnTile(currentTurn.getLocation());
 
+            // move chamera to the current turn unit's location
             CameraLoc cameraAccess = camera.GetComponent<CameraLoc>();
             Vector3 too = currentTurn.getGameobject().transform.position;
             too.z = -10;
             cameraAccess.moveCamera(camera.transform.position, too);
 
-            ButtonSelect.setCurrentTurnAbilities();
+            buttonSelect.setCurrentTurnAbilities();
 
+            // start movement phase
             movementTurn();
         }
         else
         {
+            // start ai movement and action
             ai aintelligence = new ai();
             var result = aintelligence.pathFinding(currentTurn, players, cells, getXoffset(), getYoffset());
             Vector2Int dest = result.Item1;
@@ -369,47 +387,46 @@ public class Gridd : MonoBehaviour
             Vector3Int destination = new Vector3Int(dest.x, dest.y, 0);
 
 
-            destination.z = cells[destination.x, destination.y].getzAxis();
+            destination.z = cells[destination.x, destination.y].zAxis;
 
             checkIfSelected(currentTurn.getLocation(), destination);
 
-
-
+            // move ai unit
             cells[currentTurn.getLocation().x + getXoffset(), currentTurn.getLocation().y + getYoffset()].removeCharacter();
-            cells[destination.x, destination.y].setCharacter(currentTurn);
-
-
+            cells[destination.x, destination.y].Character = currentTurn;
 
 
             destination.x = destination.x - getXoffset();
             destination.y = destination.y - getYoffset();
             currentTurn.setLocation(destination);
 
-            Vector3 too = getNonIsometricCoordinatesGo(destination);
+            Vector3 too = getNonIsometricCoordinatesForSprite(destination);
 
 
             too.y += zAxisyIncrease * too.z;
             too.y = Mathf.Round(too.y * 100f) / 100f;
 
+            // move sprite to desired location
             currentTurn.getGameobject().transform.position = too;
 
-
+            // check if the location the unit moved to is visible by the player
             if (fog.enemyMoveRefog(currentTurn))
             {
-
                 CameraLoc cameraAccess = camera.GetComponent<CameraLoc>();
                 Vector3 movingToo = currentTurn.getGameobject().transform.position;
-
+                // move camera to enemy unit if visible
                 cameraAccess.moveCamera(camera.transform.position, movingToo);
 
             }
 
+            // if unit is in range of attacking after movement
             if (focus != null)
             {
-
+                // use ability
                 currentTurn.useAbility(this, focus, 1);
 
-                if (focus.getHealth() <= 0)
+                // if target drops below 0 hp remove unit from list and tile location and delete game object
+                if (focus.Health <= 0)
                 {
                     focus.death();
                     focus.getGameobject().SetActive(false);
@@ -423,12 +440,11 @@ public class Gridd : MonoBehaviour
             }
             currentTurn.getGameobject().GetComponent<Animator>().speed = 0;
 
-
+            // if player has no units left end the level otherwise play next units turn
             if (players.Count() == 0)
             {
                 endLevel();
                 objectives.levelFailed();
-
             }
             else
             {
@@ -436,32 +452,32 @@ public class Gridd : MonoBehaviour
                 nextTurn();
             }
         }
-
     }
 
+    // set up information about units movement and location and highlight tiles it can move too
     private void movementTurn()
     {
         phase.text = "Movement Phase";
         movementAction = true;
-        movingToo = currentTurn.getLocation();
+        MovingToo = currentTurn.getLocation();
         int range = currentTurn.getMovementRange();
         var location = currentTurn.getLocation();
         tileHighlighter.highlightTiles(range, location);
     }
 
-
+    // set up player units in order chosen in the main menu and place them in the levels starting locations
     private void setUpParty()
     {
-
-
+        // set up characters according to order and unit class choosen
         CharacterSetUp charSetUp = new CharacterSetUp();
         List<string> charList = Player.instance.getCharacterList();
         List<Character> characters = charSetUp.setUpCharacter(charList);
         List<string> prefabList = charSetUp.getCharacterPrefabs();
 
+        // for every player character
         for (int i = 0; i< characters.Count; i++)
         {
-           
+           // load unit game object
             var Prefab = Resources.Load(prefabList[i]) as GameObject;
             var variableForPrefab = GameObject.Instantiate(Prefab);
             if (i == 0)
@@ -492,6 +508,7 @@ public class Gridd : MonoBehaviour
             }
         }
 
+        // get starting character locations
         lvlenemies.initializeCharacterLocations();
         List<Vector3> charLoc = lvlenemies.getCharacterStartingPositions();
 
@@ -499,17 +516,17 @@ public class Gridd : MonoBehaviour
         {
             players[i].getGameobject().transform.position = charLoc[i];
             setUpUnit(players[i]);
-            characterOrder.Add(players[i]);
         }
 
     }
 
+    // set up unit turn order by starting from a play unit and having ai units between them
     void setUpEntities(List<Character> ene)
     {
-        int charNum = characterOrder.Count;
+        int charNum = players.Count;
 
         int charAdded = 0;
-        entityOrder.Add(characterOrder[charAdded]);
+        entityOrder.Add(players[charAdded]);
         charAdded++;
         int enemyCount = ene.Count;
 
@@ -519,7 +536,7 @@ public class Gridd : MonoBehaviour
         {
             if ((float)i / charAdded >= charPerEnemy)
             {
-                entityOrder.Add(characterOrder[charAdded]);
+                entityOrder.Add(players[charAdded]);
                 charAdded++;
             }
 
@@ -533,18 +550,16 @@ public class Gridd : MonoBehaviour
     }
 
 
-
+    // if damage is delt or healing is done update health and create a damage popUp
     public void damageDealt(Character cha, int i)
     {
         DamagePopup.Create(damagePopup, cha.getGameobject().transform.position, i);
-        cha.setHealth(i);
+        cha.Health -= i;
     }
 
-
+    // check if tile selected contains a player to display healthbar ui
     public void checkIfSelected(Vector3Int from, Vector3Int too)
     {
-
-
         if (inputs.getSelectedPosition() == from)
         {
             if (from != too)
@@ -558,42 +573,47 @@ public class Gridd : MonoBehaviour
         }
     }
 
+    // get player kills
     public int getKills()
     {
         return kills;
     }
 
+    // return turn number
     public int getTurn()
     {
         return turns;
     }
 
+    // end the level
     public void endLevel()
     {
-        ButtonSelect.disableButtons();
-        ButtonSelect.disableAbilityHighlights();
+        buttonSelect.disableButtons();
+        buttonSelect.disableAbilityHighlights();
         confirmAbility.interactable = (false);
     }
 
-
+    // add enemies to enemy list and set up units
     public void addEnemy(List<Character> e)
     {
-        enemie = new List<Character>();
+        enemies = new List<Character>();
 
         foreach (Character enemy in e)
         {
-
-            enemie.Add(enemy);
+            enemies.Add(enemy);
             setUpUnit(enemy);
         }
     }
     
+    // halt game inputs
     public void haltUpdate()
     {
         enabled = false;
         inputs.enabled = false;
         inputs.OnDisable();
     }
+
+    // continue game inputs
     public void continueUpdate()
     {
         enabled = true;
@@ -628,11 +648,7 @@ public class Gridd : MonoBehaviour
         return cellyOffset;
     }
 
-    public void setPlayers(List<Character> l)
-    {
-         players = l;
-    }
-
+   
     public List<Character> getPlayers()
     {
         return players;
@@ -643,23 +659,11 @@ public class Gridd : MonoBehaviour
         return bounds;
     }
 
-    public Vector3Int selectATile(Vector3 location) { 
-        
-
-       Vector3Int test = tileSelector.getCorrectSelectedPosition(location);
-        
-        //Debug.Log(" press or release" + test);
-
-        /*
-        if (checkBounds(test))
-        {
-
-            Debug.Log("fog" + cells[test.x + getXoffset(), test.y + getYoffset()].getzAxis());
-            Debug.Log("fog" + cells[test.x + getXoffset(), test.y + getYoffset()].getFog());
-
-        }
-        */
-        return test;
+    // select proper tile visually since tile might be elevated
+    public Vector3Int selectATile(Vector3 location) 
+    { 
+       Vector3Int tile = tileSelector.getCorrectSelectedPosition(location);
+        return tile;
     }
 
     
@@ -673,14 +677,11 @@ public class Gridd : MonoBehaviour
     }
     
 
-    public void setMovingToo(Vector3Int v)
-    {
-        movingToo = v;
-    }
+    public Vector3Int MovingToo { get; set; }
 
     public List<Character> getEnemies()
     {
-        return enemie;
+        return enemies;
     }
 
     public List<Vector2> getCameraBoundries()

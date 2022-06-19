@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
+// class in charge of selecting buttons and getting character ability information associated with button to pass over to main grid class. Also in charge of enabling/disabling button interactibity
 public class ButtonSelector : MonoBehaviour
 {
 

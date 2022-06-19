@@ -7320,7 +7320,7 @@ MonoBehaviour:
   tileHighlighter: {fileID: 1174734604}
   lvlenemies: {fileID: 1174734603}
   objectives: {fileID: 247930546}
-  ButtonSelect: {fileID: 270183453}
+  buttonSelect: {fileID: 270183453}
   characterMovement: {fileID: 1534377851}
   camera: {fileID: 1534377848}
   inputs: {fileID: 1183048260}
@@ -7345,7 +7345,6 @@ MonoBehaviour:
   ene2: {fileID: 1532027174}
   ene3: {fileID: 58289168}
   ene4: {fileID: 604468278}
-  gridd: {fileID: 1174734602}
 --- !u!114 &1174734604
 MonoBehaviour:
   m_ObjectHideFlags: 0

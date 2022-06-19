@@ -3,79 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// information reagarding a tilemap tile cell
 public class Cell 
 {
-    private bool passable;
-    private bool occupied;
-    private int zaxis;
     private Character character;
-    private bool fog;
 
     // Start is called before the first frame update
     public Cell()
     {
-        occupied = false;
-        passable = true;
+        Occupied = false;
+        Passable = true;
 
     }
 
-    public void setPassable(bool t)
-    {
-        passable = t;
-    }
+    public int zAxis { get; set; }
 
-    public void setzAxis(int z)
-    {
-        zaxis = z;
-    }
 
-    public int getzAxis()
-    {
-        return zaxis;
-    }
+    public bool Passable { get; set; }
 
-    public bool getPassable()
-    {
-        return passable;
-    }
 
-    public bool getOcupied()
-    {
-        return occupied;
-    }
-
-    public void setOccupied(bool t)
-    {
-       occupied = t;
-    }
+    public bool Occupied { get; set; }
 
     public void removeCharacter()
     {
         character = null;
-        occupied = false;
-
-    }
-    public void setCharacter(Character chara)
-    {
-        character = chara;
-        occupied = true;
-    }
-    public void setFog(bool f)
-    {
-        fog = f;
+        Occupied = false;
     }
 
-    
-    public bool getFog()
-    {
-         return fog;
+    public  bool Fog { get; set; }
+
+
+    public Character Character {
+
+        get { return character; }
+
+        set {
+            character = value;
+            Occupied = true;
+        }
     }
-
-    public Character getCharacter()
-    {
-        return  character;
-    }
-
-
 
 }

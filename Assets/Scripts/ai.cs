@@ -29,7 +29,7 @@ public class ai
         Vector2Int playerLocation = new Vector2Int(0, 0);
 
        
-
+        // for each player still alive 
         foreach (Character i in players)
         {
 
@@ -40,7 +40,7 @@ public class ai
             int ydif = Mathf.Abs(loc.y - playerLocation.y);
 
 
-
+            // make a priority focus list of player units acording to if reachable, and lowest health, simple ai for now to be updated
             if (priorityChars.Count == 0)
             {
                 priorityChars.Add(i);
@@ -62,7 +62,7 @@ public class ai
 
                         if (tempDiff <= range + attackRange)
                         {
-                            if (priorityChars[j].getHealth() > i.getHealth())
+                            if (priorityChars[j].Health > i.Health)
                             {
                                 priorityChars.Insert(j, i);
                                 break;
@@ -100,6 +100,7 @@ public class ai
 
         int z = 0;
 
+        // if player units are reachable and +-10 health order might be switch to make it a bit more random, in the future order might be altered acording to character classes
         if (priorityChars.Count > 1)
         {
             for (int i = 1; i < priorityChars.Count; i++)
@@ -111,7 +112,7 @@ public class ai
 
                 if (xdif + ydif <= range + attackRange)
                 {
-                    if (priorityChars[0].getHealth() + 10 > priorityChars[i].getHealth())
+                    if (priorityChars[0].Health + 10 > priorityChars[i].Health)
                     {
                         z++;
                     }
@@ -132,6 +133,7 @@ public class ai
             }
         }
 
+        // for each character try to reach them using a star algorithm
         foreach (Character i in priorityChars)
         {
             List<Vector2Int> checks = new List<Vector2Int>();
@@ -427,16 +429,15 @@ public class ai
 
         if (checkXBounds(loc) && checkYBounds(loc))
         {
-            if (!cells[loc.x, loc.y].getOcupied())
+            if (!cells[loc.x, loc.y].Occupied)
             {
-                if (cells[loc.x, loc.y].getPassable())
+                if (cells[loc.x, loc.y].Passable)
                 {
                     return true;
                 }
             }
         }
         return false;
-        
     }
 
 }

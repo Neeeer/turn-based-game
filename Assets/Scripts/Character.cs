@@ -8,9 +8,8 @@ public class Character
     Vector3Int location;
     GameObject gameO;
     int  mRange = 4;
-    int HP;
-    int maxHP;
     bool dead = false;
+    int health;
 
     // Start is called before the first frame update
 
@@ -92,6 +91,7 @@ public class Character
         char[] delimiterChars = { '-', '+' };
 
         System.Random rnd = new System.Random();
+        Debug.Log(i);
         int rand = 0;
         if (i == 1)
         {
@@ -107,7 +107,14 @@ public class Character
         else if (i == 3)
         {
             string[] range = this.damageAbility3().Split(delimiterChars);
-            rand = rnd.Next(Int32.Parse(range[0]), Int32.Parse(range[range.Length - 1]));
+            if (range.Length == 3)
+            {
+                rand = - rnd.Next(Int32.Parse(range[1]), Int32.Parse(range[range.Length - 1]));
+            }
+            else
+            {
+                rand = rnd.Next(Int32.Parse(range[0]), Int32.Parse(range[range.Length - 1]));
+            }
         }
         else if (i == 4)
         {
@@ -164,25 +171,13 @@ public virtual String damageAbility1()
     {
         return mRange;
     }
-    public virtual int getHealth()
-    {
-        return HP;
-    }
-
-    public virtual void setHealth(int h)
-    {
-        HP = HP - h;
-    }
+   
 
     public virtual void death()
     {
         dead = true;
     }
 
-    public virtual int getMaxHealth()
-    {
-        return maxHP;
-    }
 
     public virtual void saveData(List<int> values)
     {
@@ -193,7 +188,23 @@ public virtual String damageAbility1()
         return null;
     }
 
+    public virtual int Health
+    {
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+            if (health > maxHeath)
+            {
+                health = maxHeath;
+            }
+        }
+    }
 
 
+    public virtual int maxHeath { get; protected set; }
 
 }

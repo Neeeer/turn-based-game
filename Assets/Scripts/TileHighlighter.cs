@@ -58,13 +58,13 @@ public class TileHighlighter :MonoBehaviour
             if (isNot)
             {
 
-                location.z = cells[location.x + grid.getXoffset(), location.y + grid.getYoffset()].getzAxis();
+                location.z = cells[location.x + grid.getXoffset(), location.y + grid.getYoffset()].zAxis;
                 if (grid.checkBounds(location))
                 {
                     if (tilemap.HasTile(location))
                     {
 
-                        location.z = cells[location.x + grid.getXoffset(), location.y + grid.getYoffset()].getzAxis() + 1;
+                        location.z = cells[location.x + grid.getXoffset(), location.y + grid.getYoffset()].zAxis + 1;
 
 
                         tilemap.SetTile(location, getHighlightedp());
@@ -340,12 +340,12 @@ public class TileHighlighter :MonoBehaviour
             {
                 if (grid.checkBounds(selectPos))
                 {
-                    selectPos.z = cells[selectPos.x + grid.getXoffset(), selectPos.y + grid.getYoffset()].getzAxis();
+                    selectPos.z = cells[selectPos.x + grid.getXoffset(), selectPos.y + grid.getYoffset()].zAxis;
 
                     if (tilemap.HasTile(selectPos))
                     {
 
-                        if (cells[selectPos.x + grid.getXoffset(), selectPos.y + grid.getYoffset()].getOcupied())
+                        if (cells[selectPos.x + grid.getXoffset(), selectPos.y + grid.getYoffset()].Occupied)
                         {
                             found = true;
                             break;
@@ -369,7 +369,7 @@ public class TileHighlighter :MonoBehaviour
             loc.y += v.y;
             if (grid.checkBounds(loc))
             {
-                loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].getzAxis();
+                loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].zAxis;
                 if (tilemap.HasTile(loc))
                 {
                     loc.z += 1;
@@ -386,7 +386,7 @@ public class TileHighlighter :MonoBehaviour
 
     public void unHighlightStandingPosition(Vector3Int loc)
     {
-        loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].getzAxis() + 1;
+        loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].zAxis + 1;
         tilemap.SetTile(loc, null);
         highlightedPositions.RemoveAt(0);
     }
@@ -409,7 +409,7 @@ public class TileHighlighter :MonoBehaviour
             {
 
                 var position = s;
-                position.z = cells[position.x + grid.getXoffset(), position.y + grid.getYoffset()].getzAxis();
+                position.z = cells[position.x + grid.getXoffset(), position.y + grid.getYoffset()].zAxis;
 
                 if (grid.checkBounds(position))
                 {

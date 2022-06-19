@@ -79,10 +79,10 @@ public class Fog
             if (movingFromOrToo == true)
             {
                 Vector3Int loc = new Vector3Int(checkk.x, checkk.y, location.z);
-                loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].getzAxis() + 4;
+                loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].zAxis + 4;
 
                 tilemap.SetTile(loc, null);
-                cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].setFog(false);
+                cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].Fog = false;
             }
             else
             {
@@ -102,7 +102,7 @@ public class Fog
 
                     Vector3Int loc = new Vector3Int(checkk.x, checkk.y, location.z);
 
-                    loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].getzAxis() + 4;
+                    loc.z = cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].zAxis + 4;
                     if (tilemap.HasTile(new Vector3Int(loc.x, loc.y, 0)))
                     {
 
@@ -110,7 +110,7 @@ public class Fog
                         tilemap.SetTileFlags(loc, TileFlags.None);
                         Color color = new Color(1.0f, 0.4f, 0.0f, 0.5f);
                         tilemap.SetColor(loc, color);
-                        cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].setFog(true);
+                        cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].Fog = true;
                     }
 
                 }
@@ -136,7 +136,7 @@ public class Fog
        // Debug.Log("start");
         Vector3Int loc = c.getLocation();
         // Debug.Log("loc" + loc);
-        if (cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].getFog() == true)
+        if (cells[loc.x + grid.getXoffset(), loc.y + grid.getYoffset()].Fog == true)
         {
             Renderer tempSprite = c.getGameobject().GetComponent<SpriteRenderer>();
             tempSprite.enabled = false;
@@ -163,7 +163,7 @@ public class Fog
                 var py = grid.getYoffset() + y;
 
 
-                Vector3Int location = new Vector3Int(px, py, cells[px, py].getzAxis() + 4);
+                Vector3Int location = new Vector3Int(px, py, cells[px, py].zAxis + 4);
                 if (tilemap.HasTile(new Vector3Int(x, y, 0)))
                 {
 
@@ -174,7 +174,7 @@ public class Fog
                     Color color = new Color(1.0f, 0.4f, 0.0f, 0.5f);
                     tilemap.SetColor(loc, color);
 
-                    cells[px, py].setFog(true);
+                    cells[px, py].Fog = true;
                 }
             }
         }
@@ -192,7 +192,7 @@ public class Fog
     {
         foreach (Character e in grid.getEnemies())
         {
-            if (cells[e.getLocation().x + grid.getXoffset(), e.getLocation().y + grid.getYoffset()].getFog() == true)
+            if (cells[e.getLocation().x + grid.getXoffset(), e.getLocation().y + grid.getYoffset()].Fog == true)
             {
                 e.getGameobject().GetComponent<SpriteRenderer>().enabled = false;
                

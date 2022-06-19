@@ -41,8 +41,8 @@ public class Healthbar : MonoBehaviour
             i.enabled = true;
         }
 
-        healthSlider.value = (float)cha.getHealth() / cha.getMaxHealth();
+        healthSlider.value = (float)cha.Health / cha.maxHeath;
         healthNumber.enabled = true;
-        healthNumber.text = cha.getHealth().ToString() + "/" + cha.getMaxHealth().ToString();
+        healthNumber.text = cha.Health.ToString() + "/" + cha.maxHeath.ToString();
     }
 }

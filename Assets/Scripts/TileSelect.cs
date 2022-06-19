@@ -36,7 +36,7 @@ public class TileSelect
 
         if (grid.checkBounds(tilePos))
         {
-            tilePos.z = cells[tilePos.x + grid.getXoffset(), tilePos.y + grid.getYoffset()].getzAxis();
+            tilePos.z = cells[tilePos.x + grid.getXoffset(), tilePos.y + grid.getYoffset()].zAxis;
 
 
             if (tilePos.z == 0)
@@ -65,14 +65,14 @@ public class TileSelect
 
             if (grid.checkBounds(otherTilePos))
             {
-                otherTilePos.z = cells[otherTilePos.x + grid.getXoffset(), otherTilePos.y + grid.getYoffset()].getzAxis();
+                otherTilePos.z = cells[otherTilePos.x + grid.getXoffset(), otherTilePos.y + grid.getYoffset()].zAxis;
 
                 colums.Add(otherTilePos);
 
             }
             if (grid.checkBounds(underTilePos))
             {
-                underTilePos.z = cells[underTilePos.x + grid.getXoffset(), underTilePos.y + grid.getYoffset()].getzAxis();
+                underTilePos.z = cells[underTilePos.x + grid.getXoffset(), underTilePos.y + grid.getYoffset()].zAxis;
 
                 colums.Add(underTilePos);
             }
@@ -89,12 +89,12 @@ public class TileSelect
 
                 if (grid.checkBounds(otherTilePos))
                 {
-                    otherTilePos.z = cells[otherTilePos.x + grid.getXoffset(), otherTilePos.y + grid.getYoffset()].getzAxis();
+                    otherTilePos.z = cells[otherTilePos.x + grid.getXoffset(), otherTilePos.y + grid.getYoffset()].zAxis;
                     colums.Add(otherTilePos);
                 }
                 if (grid.checkBounds(underTilePos))
                 {
-                    underTilePos.z = cells[underTilePos.x + grid.getXoffset(), underTilePos.y + grid.getYoffset()].getzAxis();
+                    underTilePos.z = cells[underTilePos.x + grid.getXoffset(), underTilePos.y + grid.getYoffset()].zAxis;
                     colums.Add(underTilePos);
                 }
 
@@ -152,7 +152,7 @@ public class TileSelect
             {
                 if (grid.checkBounds(otherTilePos))
                 {
-                    otherTilePos.z = cells[otherTilePos.x + grid.getXoffset(), otherTilePos.y + grid.getYoffset()].getzAxis();
+                    otherTilePos.z = cells[otherTilePos.x + grid.getXoffset(), otherTilePos.y + grid.getYoffset()].zAxis;
 
                     Vector3 tempTile = grid.getNonIsometricCoordinates(otherTilePos);
                     float tempx = Mathf.Abs(selectWorldPosition.x - tempTile.x);
@@ -173,7 +173,7 @@ public class TileSelect
 
                 if (grid.checkBounds(underTilePos))
                 {
-                    underTilePos.z = cells[underTilePos.x + grid.getXoffset(), underTilePos.y + grid.getYoffset()].getzAxis();
+                    underTilePos.z = cells[underTilePos.x + grid.getXoffset(), underTilePos.y + grid.getYoffset()].zAxis;
 
                     Vector3 tempTile = grid.getNonIsometricCoordinates(underTilePos);
                     float tempx = Mathf.Abs(selectWorldPosition.x - tempTile.x);

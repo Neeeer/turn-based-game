@@ -158,11 +158,11 @@ public class Inputs : MonoBehaviour
         {
             if (grid.checkBounds(movingFrom))
             {
-                if (cells[movingFrom.x + grid.getXoffset(), movingFrom.y + grid.getYoffset()].getCharacter() == grid.getCurrentTurn())
+                if (cells[movingFrom.x + grid.getXoffset(), movingFrom.y + grid.getYoffset()].Character == grid.getCurrentTurn())
                 {
                     emptyMovementList();
                     emptyDirectionList();
-                    grid.setMovingToo(grid.getCurrentTurn().getLocation());
+                    grid.MovingToo = grid.getCurrentTurn().getLocation();
                     moving = true;
                     movementRange = grid.getCurrentTurn().getMovementRange();
                 }
@@ -236,7 +236,7 @@ public class Inputs : MonoBehaviour
         Character currentTurn = grid.getCurrentTurn();
 
 
-        if (cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellxoffset].getCharacter() != currentTurn)
+        if (cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellyoffset].Character != currentTurn)
         {
             tilemap.SetTile(getSelectedPosition(), null);
         }
@@ -246,22 +246,22 @@ public class Inputs : MonoBehaviour
 
         if (grid.checkBounds(p))
         {
-            p.z = cells[p.x + cellxoffset, p.y + cellyoffset].getzAxis();
+            p.z = cells[p.x + cellxoffset, p.y + cellyoffset].zAxis;
 
             if (tilemap.HasTile(p))
             {
                 selectedPosition = p;
                 selectedPosition.z += 3;
 
-                if (cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellyoffset].getCharacter() != currentTurn)
+                if (cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellyoffset].Character != currentTurn)
                 {
                     tilemap.SetTile(getSelectedPosition(), selectedp);
                 }
 
 
-                if (cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellyoffset].getCharacter() != null && cells[selectedPosition.x + cellxoffset, selectedPosition.y + cellyoffset].getFog() == false)
+                if (cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellyoffset].Character != null && cells[selectedPosition.x + cellxoffset, selectedPosition.y + cellyoffset].Fog == false)
                 {
-                    healthbar.updateHealthBar(cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellyoffset].getCharacter());
+                    healthbar.updateHealthBar(cells[getSelectedPosition().x + cellxoffset, getSelectedPosition().y + cellyoffset].Character);
 
                 }
                 else
@@ -333,7 +333,7 @@ public class Inputs : MonoBehaviour
         }
         else
         {
-            if (cells[too.x + cellxoffset, too.y + cellyoffset].getCharacter() != grid.getCurrentTurn())
+            if (cells[too.x + cellxoffset, too.y + cellyoffset].Character != grid.getCurrentTurn())
             {
                 if (!tilemap.HasTile(too))
                 {
@@ -356,7 +356,7 @@ public class Inputs : MonoBehaviour
             {
                 if (Mathf.Abs(difx) == 1 && Mathf.Abs(dify) == 0)
                 {
-                    int z = cells[from.x + cellxoffset, from.y + cellyoffset].getzAxis();
+                    int z = cells[from.x + cellxoffset, from.y + cellyoffset].zAxis;
 
                     from.z = z + 2;
 
@@ -431,13 +431,13 @@ public class Inputs : MonoBehaviour
                         }
                     }
                     touchLastPosition = touchEndP;
-                    grid.setMovingToo(too);
+                    grid.MovingToo = too;
                 }
 
                 else if (Mathf.Abs(dify) == 1 && Mathf.Abs(difx) == 0)
                 {
 
-                    int z = cells[from.x + cellxoffset, from.y + cellyoffset].getzAxis();
+                    int z = cells[from.x + cellxoffset, from.y + cellyoffset].zAxis;
 
                     from.z = z + 2;
 
@@ -512,7 +512,7 @@ public class Inputs : MonoBehaviour
                         }
                     }
                     touchLastPosition = touchEndP;
-                    grid.setMovingToo(too);
+                    grid.MovingToo = too;
                 }
 
             }

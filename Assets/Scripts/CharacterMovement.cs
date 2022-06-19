@@ -36,9 +36,9 @@ public class CharacterMovement : MonoBehaviour
         {
             Vector3Int tile = movementPositions[i];
             
-            Vector3 v = grid.getNonIsometricCoordinatesGo(tile);
+            Vector3 v = grid.getNonIsometricCoordinatesForSprite(tile);
 
-            v.z = cells[tile.x + grid.getXoffset(), tile.y + grid.getYoffset()].getzAxis();
+            v.z = cells[tile.x + grid.getXoffset(), tile.y + grid.getYoffset()].zAxis;
 
             v.y += grid.zAxisyIncrease * v.z;
             v.y = Mathf.Round(v.y * 100f) / 100f;

@@ -6,9 +6,8 @@ using UnityEngine;
 public class Paladin : Character 
 {
 
-    int HP;
-    int maxHP;
     bool dead;
+    int health;
     List<Vector2Int> ability1;
     List<Vector2Int> ability2;
     List<Vector2Int> ability3;
@@ -17,8 +16,8 @@ public class Paladin : Character
     public Paladin()
     {
 
-        HP = 120;
-        maxHP = HP;
+        health = 120;
+        maxHeath = health;
         dead = false;
         ability1 = new List<Vector2Int>();
         ability2 = new List<Vector2Int>();
@@ -98,7 +97,7 @@ public class Paladin : Character
     }
     public override String damageAbility3()
     {
-        return "7-10";
+        return "+7-10";
     }
     public override String damageAbility4()
     {
@@ -112,24 +111,29 @@ public class Paladin : Character
         return true;
     }
 
-    public override int getHealth()
-    {
-        return HP;
-    }
     public override void death()
     {
         dead = true;
     }
 
 
-    public override int getMaxHealth()
+    public override int Health
     {
-        return maxHP;
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+            if (health > maxHeath)
+            {
+                health = maxHeath;
+            }
+        }
     }
-    public override void setHealth(int h)
-    {
-        HP = HP - h;
-    }
+
+    public override int maxHeath { get; protected set; }
 
     public override void saveData(List<int> values)
     {
