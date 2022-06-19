@@ -11,7 +11,7 @@ public class CameraLoc : MonoBehaviour
     Vector3 too;
     public Gridd gridd;
 
-    // Start is called before the first frame update
+    // move camera with update method using lerp from a to b to not snap camera position instantly and comfuse player
     public void moveCamera(Vector3 curPos, Vector3 tooPos)
     {
         from = curPos;

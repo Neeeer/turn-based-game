@@ -6,8 +6,7 @@ using UnityEngine;
 public class Frog : Character
 {
     int mRange = 3;
-    int HP;
-    int maxHP;
+    int health;
     bool dead;
     List<Vector2Int> ability1;
     List<Vector2Int> ability2;
@@ -17,8 +16,8 @@ public class Frog : Character
     // Start is called before the first frame update
     public Frog()
     {
-        HP = 80;
-        maxHP = HP;
+        health = 80;
+        maxHeath = health;
         dead = false;
         ability1 = new List<Vector2Int>();
         ability2 = new List<Vector2Int>();
@@ -132,24 +131,31 @@ public class Frog : Character
     {
         return mRange;
     }
-    public override int getHealth()
-    {
-        return HP;
-    }
+  
 
     public override void death()
     {
         dead = true;
     }
 
-    public override int getMaxHealth()
+
+    public override int Health
     {
-        return maxHP;
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+            if (health > maxHeath)
+            {
+                health = maxHeath;
+            }
+        }
     }
-    public override void setHealth(int h)
-    {
-        HP = HP - h;
-    }
+
+    public override int maxHeath { get; protected set; }
 
     public override void saveData(List<int> values)
     {

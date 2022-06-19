@@ -10,13 +10,14 @@ public class DamagePopup : MonoBehaviour
     private float limit;
     private Color textC;
 
+
+    // create a damage popUp
     public static void Create(Transform t, Vector3 pos, int dmg)
     {
         Transform damageTrans = Instantiate(t, pos, Quaternion.identity);
 
         DamagePopup damage = damageTrans.GetComponent<DamagePopup>();
         damage.Setup(dmg);
-
     }
 
    
@@ -26,7 +27,7 @@ public class DamagePopup : MonoBehaviour
         text = transform.GetComponent<TextMeshPro>();
     }
 
-    // Start is called before the first frame update
+    // call set uo after creating the damage popUp in order set text color depending on what the ability does or if it heals
     public void Setup(int damage)
     {
         textC = text.color;
@@ -34,6 +35,7 @@ public class DamagePopup : MonoBehaviour
 
         if (damage <0)
         {
+            Debug.Log("heals");
             textC.g = 1;
             textC.r = 0;
             text.color = textC;
@@ -43,6 +45,7 @@ public class DamagePopup : MonoBehaviour
     }
 
     // Update is called once per frame
+    // move the damage popUp upwards as the text color alpha is reduces, upon the alpha becoming 0 desteroy the gameobject.
     public void Update()
     {
         float speedy = 0.3f;

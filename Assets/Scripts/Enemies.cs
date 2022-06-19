@@ -6,9 +6,8 @@ using UnityEngine;
 public class Enemies : Character
 {
 
-    int HP;
+    int health;
     int mRange;
-    int maxHP;
     bool dead;
     List<Vector2Int> ability1;
     List<Vector2Int> ability2;
@@ -16,8 +15,8 @@ public class Enemies : Character
 
     public Enemies()
     {
-        HP = 100;
-        maxHP = HP;
+        health = 100;
+        maxHeath = health;
         mRange = 4;
         dead = false;
         ability1 = new List<Vector2Int>();
@@ -80,10 +79,7 @@ public class Enemies : Character
 
     }
 
-    public override int getHealth()
-    {
-        return HP;
-    }
+   
 
     public override int getMovementRange()
     {
@@ -95,14 +91,23 @@ public class Enemies : Character
         dead = true;
     }
 
-    public override int getMaxHealth()
+
+    public override int Health
     {
-        return maxHP;
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+            if (health > maxHeath)
+            {
+                health = maxHeath;
+            }
+        }
     }
 
-    public override void setHealth(int h)
-    {
-        HP = HP - h;
-    }
+    public override int maxHeath { get; protected set; }
 
 }

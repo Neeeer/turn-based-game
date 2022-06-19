@@ -36,15 +36,15 @@ public class TilemapSetup
                     {
 
                         tilez = i;
-                        cells[px, py].setzAxis(tilez);
+                        cells[px, py].zAxis = tilez;
                         var tilemapTile = tilemap.GetTile(new Vector3Int(x, y, i));
                         if (tilemapTile == lava)
                         {
-                            cells[px, py].setPassable(false);
+                            cells[px, py].Passable = false;
                         }
                         else
                         {
-                            cells[px, py].setPassable(true);
+                            cells[px, py].Passable = true;
                         }
                     }
                 }

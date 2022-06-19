@@ -6,23 +6,19 @@ using UnityEngine.UI;
 
 public class Druid  : Character
 {
-    int HP;
-    int maxHP;
     List<Vector2Int> ability1;
     List<Vector2Int> ability2;
     List<Vector2Int> ability3;
     List<Vector2Int> ability4;
     bool dead;
-
-
-
+    int health;
 
 
     // Start is called before the first frame update
     public Druid()
     {
-        HP= 90;
-        maxHP = HP;
+        health = 90;
+        maxHeath = health;
         dead = false;
         ability1 = new List<Vector2Int>();
         ability2 = new List<Vector2Int>();
@@ -109,25 +105,31 @@ public class Druid  : Character
     {
         return true;
     }
-
-    public override int getHealth()
+    public override int Health
     {
-        return HP;
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+            if (health > maxHeath)
+            {
+                health = maxHeath;
+            }
+        }
     }
+
+    public override int maxHeath { get; protected set; }
+
+    
     public override void death()
     {
         dead = true;
     }
 
-    public override int getMaxHealth()
-    {
-        return maxHP;
-    }
-
-    public override void setHealth(int h)
-    {
-        HP = HP - h;
-    }
+ 
 
 
     public override void saveData(List<int> values)
