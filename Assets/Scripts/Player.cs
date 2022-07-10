@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class  Player : MonoBehaviour
 {
@@ -21,7 +22,6 @@ public class  Player : MonoBehaviour
 
     void Start()
     {
-        loadPlayer();
     }
 
     private void Awake()
@@ -35,6 +35,7 @@ public class  Player : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        loadPlayer();
     }
 
     public void SavePlayer()
@@ -62,7 +63,15 @@ public class  Player : MonoBehaviour
             paladinLevel = data.paladinLevel;
             frogLevel = data.frogLevel;
         }
-
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            List<string> charList = new List<string>();
+            charList.Add("Druid");
+            charList.Add( "Assasin");
+            charList.Add( "Frog");
+            charList.Add( "Paladin");
+            setCharacterList(charList);
+        }
     }
 
     public void setPlayerAbilities(List<int> loadout)

@@ -66,8 +66,6 @@ public class MainMenu : MonoBehaviour
             Player.instance.setCharacterList(dragAndDrop.getCharacterSlots());
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + selectedLevel);
         }
-        
     }
-
 
 }
