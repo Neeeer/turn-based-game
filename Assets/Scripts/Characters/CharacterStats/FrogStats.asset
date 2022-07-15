@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7435d9b4cdd69c546a1183c45a345e8c, type: 3}
+  m_Name: FrogStats
+  m_EditorClassIdentifier: 
+  <BaseMaxHeath>k__BackingField: 80
+  <HealthIncreasePerLevel>k__BackingField: 1
+  <BaseDamage>k__BackingField: 0
+  <MovementRange>k__BackingField: 3
+  <PlayerCharacter>k__BackingField: 1
+  Ability1:
+  - {x: 0, y: 0}
+  Ability2:
+  - {x: 0, y: 0}
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  Ability3:
+  - {x: 0, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  Ability4:
+  - {x: 0, y: 0}
+  - {x: 1, y: 0}
+  - {x: 1, y: 1}
+  - {x: 1, y: -1}
+  - {x: 2, y: 0}
+  - {x: 2, y: -1}
+  - {x: 2, y: -2}
+  - {x: 2, y: 1}
+  - {x: 2, y: 2}
+  <Ability1Range>k__BackingField: 3
+  <Ability2Range>k__BackingField: 3
+  <Ability3Range>k__BackingField: 3
+  <Ability4Range>k__BackingField: 1
+  <Ability1Angle>k__BackingField: 0
+  <Ability2Angle>k__BackingField: 0
+  <Ability3Angle>k__BackingField: 1
+  <Ability4Angle>k__BackingField: 13
+  Ability1BaseDamage: {x: 15, y: 15}
+  Ability2BaseDamage: {x: 9, y: 12}
+  Ability3BaseDamage: {x: 10, y: 14}
+  Ability4BaseDamage: {x: 13, y: 18}
+  Ability1DamageIncreasePerLevel: {x: 1, y: 1}
+  Ability2DamageIncreasePerLevel: {x: 0.7, y: 0.7}
+  Ability3DamageIncreasePerLevel: {x: 0.7, y: 0.8}
+  Ability4DamageIncreasePerLevel: {x: 0.5, y: 0.7}

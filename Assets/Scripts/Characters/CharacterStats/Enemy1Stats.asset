@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7435d9b4cdd69c546a1183c45a345e8c, type: 3}
+  m_Name: Enemy1Stats
+  m_EditorClassIdentifier: 
+  <BaseMaxHeath>k__BackingField: 100
+  <HealthIncreasePerLevel>k__BackingField: 0
+  <BaseDamage>k__BackingField: 0
+  <MovementRange>k__BackingField: 4
+  <PlayerCharacter>k__BackingField: 0
+  Ability1: []
+  Ability2: []
+  Ability3: []
+  Ability4: []
+  <Ability1Range>k__BackingField: 1
+  <Ability2Range>k__BackingField: 0
+  <Ability3Range>k__BackingField: 0
+  <Ability4Range>k__BackingField: 0
+  <Ability1Angle>k__BackingField: 0
+  <Ability2Angle>k__BackingField: 0
+  <Ability3Angle>k__BackingField: 0
+  <Ability4Angle>k__BackingField: 0
+  Ability1BaseDamage: {x: 15, y: 20}
+  Ability2BaseDamage: {x: 12, y: 15}
+  Ability3BaseDamage: {x: 0, y: 0}
+  Ability4BaseDamage: {x: 0, y: 0}
+  Ability1DamageIncreasePerLevel: {x: 0, y: 0}
+  Ability2DamageIncreasePerLevel: {x: 0, y: 0}
+  Ability3DamageIncreasePerLevel: {x: 0, y: 0}
+  Ability4DamageIncreasePerLevel: {x: 0, y: 0}
+  Ability1Effect: 0
+  Ability2Effect: 0
+  Ability3Effect: 0
+  Ability4Effect: 0

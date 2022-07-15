@@ -14,10 +14,10 @@ public class ai
         offsety = offy;
         List<Vector2Int> priorityRoute = new List<Vector2Int>();
         cells = c;
-        int range = currentTurn.getMovementRange();
+        int range = currentTurn.MovementRange;
         Vector2Int loc = new Vector2Int(0, 0);
-        loc.x = currentTurn.getLocation().x + offsetx;
-        loc.y = currentTurn.getLocation().y + offsety;
+        loc.x = currentTurn.Location.x + offsetx;
+        loc.y = currentTurn.Location.y + offsety;
         Vector2Int closest = loc;
         Character enemyFound = null;
         int attackRange = currentTurn.rangeAbility1();
@@ -33,8 +33,8 @@ public class ai
         foreach (Character i in players)
         {
 
-            playerLocation.x = i.getLocation().x + offsetx;
-            playerLocation.y = i.getLocation().y + offsety;
+            playerLocation.x = i.Location.x + offsetx;
+            playerLocation.y = i.Location.y + offsety;
 
             int xdif = Mathf.Abs(loc.x - playerLocation.x);
             int ydif = Mathf.Abs(loc.y - playerLocation.y);
@@ -50,8 +50,8 @@ public class ai
 
                 for (int j = 0; j < priorityChars.Count ; j++)
                 {
-                    playerLocation.x = priorityChars[j].getLocation().x + offsetx;
-                    playerLocation.y = priorityChars[j].getLocation().y + offsety;
+                    playerLocation.x = priorityChars[j].Location.x + offsetx;
+                    playerLocation.y = priorityChars[j].Location.y + offsety;
 
                     int tempDiff = Mathf.Abs(loc.x - playerLocation.x) + Mathf.Abs(loc.y - playerLocation.y);
 
@@ -106,8 +106,8 @@ public class ai
             for (int i = 1; i < priorityChars.Count; i++)
             {
 
-                int xdif = Mathf.Abs(loc.x - (priorityChars[i].getLocation().x + +offsetx));
-                int ydif = Mathf.Abs(loc.y - (priorityChars[i].getLocation().y + offsety));
+                int xdif = Mathf.Abs(loc.x - (priorityChars[i].Location.x + +offsetx));
+                int ydif = Mathf.Abs(loc.y - (priorityChars[i].Location.y + offsety));
 
 
                 if (xdif + ydif <= range + attackRange)
@@ -146,7 +146,7 @@ public class ai
             Vector2Int check = loc;
 
 
-            if (Mathf.Abs(check.x - (i.getLocation().x + offsetx)) + Mathf.Abs(check.y - (i.getLocation().y + offsety)) <= attackRange)
+            if (Mathf.Abs(check.x - (i.Location.x + offsetx)) + Mathf.Abs(check.y - (i.Location.y + offsety)) <= attackRange)
             {
                 found = true;
                 closest.x = check.x;
@@ -190,8 +190,8 @@ public class ai
             else
             {
                 pathTile tile = new pathTile();
-                int xdif = Mathf.Abs(loc.x - (i.getLocation().x + offsetx));
-                int ydif = Mathf.Abs(loc.y - (i.getLocation().y + offsety));
+                int xdif = Mathf.Abs(loc.x - (i.Location.x + offsetx));
+                int ydif = Mathf.Abs(loc.y - (i.Location.y + offsety));
                
                 tile.setPathTile(xdif + ydif, 0, xdif + ydif, null, loc);
 
@@ -251,8 +251,8 @@ public class ai
                     {
 
 
-                        xdif = Mathf.Abs(bestTile.getLoc().x + 1 - (i.getLocation().x + offsetx));
-                        ydif = Mathf.Abs(bestTile.getLoc().y - (i.getLocation().y + offsety));
+                        xdif = Mathf.Abs(bestTile.getLoc().x + 1 - (i.Location.x + offsetx));
+                        ydif = Mathf.Abs(bestTile.getLoc().y - (i.Location.y + offsety));
 
                         Vector2Int tempLoc = bestTile.getLoc();
                         tempLoc.x++;
@@ -285,7 +285,7 @@ public class ai
 
 
 
-                        xdif = Mathf.Abs(bestTile.getLoc().x - 1 - (i.getLocation().x + offsetx));
+                        xdif = Mathf.Abs(bestTile.getLoc().x - 1 - (i.Location.x + offsetx));
 
                         tempLoc = bestTile.getLoc();
                         tempLoc.x--;
@@ -317,8 +317,8 @@ public class ai
 
 
 
-                        xdif = Mathf.Abs(bestTile.getLoc().x  - (i.getLocation().x + offsetx));
-                        ydif = Mathf.Abs(bestTile.getLoc().y + 1 - (i.getLocation().y + offsety));
+                        xdif = Mathf.Abs(bestTile.getLoc().x  - (i.Location.x + offsetx));
+                        ydif = Mathf.Abs(bestTile.getLoc().y + 1 - (i.Location.y + offsety));
 
                         tempLoc = bestTile.getLoc();
                         tempLoc.y++;
@@ -349,7 +349,7 @@ public class ai
                         }
 
 
-                        ydif = Mathf.Abs(bestTile.getLoc().y - 1 - (i.getLocation().y + offsety));
+                        ydif = Mathf.Abs(bestTile.getLoc().y - 1 - (i.Location.y + offsety));
 
 
                         tempLoc = bestTile.getLoc();
