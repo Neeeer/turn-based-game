@@ -1718,12 +1718,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 247930542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b200bc248dd44e4b8f829eb80127d57, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c1ba65860ea8994d84b9c6edc889964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   killText: {fileID: 2015873460}
   objectiveText: {fileID: 123305881}
-  gridd: {fileID: 1174734602}
+  grid: {fileID: 1174734602}
   endLevel: {fileID: 203762282}
   LevelCompletetion: {fileID: 25504354}
   optionalObjective: {fileID: 1238239032}
@@ -1911,6 +1911,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 1174734602}
+  abilitySelected: 1
+  highlightedAbility: []
+  AbilityButtons: []
+  AbilitiesDamageText: []
   ability1Button: {fileID: 758499886}
   ability2Button: {fileID: 1934697592}
   ability3Button: {fileID: 849414293}
@@ -2380,6 +2384,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433684508}
   m_CullTransparentMesh: 1
+--- !u!1 &441695519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 441695521}
+  - component: {fileID: 441695520}
+  m_Layer: 0
+  m_Name: player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &441695520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441695519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5a8e8d6ecb4e845b333a993f3fda6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  druidXp: 0
+  assasinXp: 0
+  paladinXp: 0
+  frogXp: 0
+  druidLevel: 0
+  assasinLevel: 0
+  paladinLevel: 0
+  frogLevel: 0
+  AssasinInfo: {fileID: 11400000, guid: 2c235e57bb39d9e478538b0c9d0b1196, type: 2}
+  DruidInfo: {fileID: 11400000, guid: 1351efd030792d041a50d98a11ff3792, type: 2}
+  FrogInfo: {fileID: 11400000, guid: 2f4eb0abdfacf9547a30c526fd01ec4e, type: 2}
+  PaladinInfo: {fileID: 11400000, guid: 77fd703873b81794aa3cd2f7183bfc19, type: 2}
+  Enemy1Info: {fileID: 11400000, guid: 9a50aff0a11d6c1469a59ff08199d3c3, type: 2}
+--- !u!4 &441695521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441695519}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7222222, y: 0, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &452334740
 GameObject:
   m_ObjectHideFlags: 0
@@ -4261,6 +4321,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959003578}
   m_CullTransparentMesh: 1
+--- !u!1 &988081937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 988081938}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &988081938
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988081937}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.303397, y: 0.556794, z: -9.940244}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1046766720 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3526956105493329683, guid: ce744094b1c6f0a469b54ffa0195eb7f, type: 3}
